@@ -1,7 +1,6 @@
 const PAGE_PREFETCH_SCRIPT = `<script>
 (() => {
   const ROUTES = ["/", "/menu", "/delivery", "/franchise"];
-  const DAY_KEYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
   const FRANCHISE_HERO =
     "https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fibbers-magee-inside.jpg?fit=800%2C600&ssl=1";
 
@@ -81,7 +80,6 @@ const PAGE_PREFETCH_SCRIPT = `<script>
       const assets = [deal.image];
       if (deal.video) assets.push(deal.video);
       if (deal.loopVideo) assets.push(deal.loopVideo);
-      else assets.push("/deal-" + DAY_KEYS[today] + ".mp4");
       return assets;
     }
     return PAGE_ASSETS[route] || [];

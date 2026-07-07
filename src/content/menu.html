@@ -167,6 +167,9 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
   object-position:center 32%;
 }
 .deal-hero.has-video .deal-hero-bg{opacity:0}
+.deal-hero.has-video-pending .deal-hero-bg{opacity:0}
+.deal-hero.has-video-pending .deal-hero-video{opacity:0}
+.deal-hero.has-video-pending{background:var(--green-950)}
 .deal-hero-overlay{
   position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(8,31,22,.4) 0%,rgba(8,31,22,.4) 50%,rgba(8,31,22,.4) 100%);
@@ -487,10 +490,10 @@ footer .fine{font-size:.8rem;font-weight:300}
 <main>
 
   <!-- TODAY'S DEAL HERO (content injected by JS based on the day) -->
-  <section class="deal-hero has-image site-hero" id="dealHero">
+  <section class="deal-hero site-hero" id="dealHero">
     <div class="deal-hero-media" aria-hidden="true">
       <div class="deal-hero-bg" id="dealHeroBg"></div>
-      <video class="deal-hero-video is-active" id="dealHeroVideo" autoplay muted playsinline preload="auto"></video>
+      <video class="deal-hero-video" id="dealHeroVideo" muted playsinline preload="auto"></video>
       <video class="deal-hero-video" id="dealHeroVideoLoop" muted playsinline preload="auto"></video>
     </div>
     <div class="deal-hero-overlay" aria-hidden="true"></div>
@@ -924,7 +927,6 @@ const deals = {
      desc:"Pre-purchase your voucher and enjoy six house beverages at 33 AED a pop. Perfect for the football."}
 };
 const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const dayKeys = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
 const today = new Date().getDay();
 const d = deals[today];
 const hero = document.getElementById('dealHero');
@@ -932,107 +934,127 @@ const heroBg = document.getElementById('dealHeroBg');
 const heroVideo = document.getElementById('dealHeroVideo');
 const heroVideoLoop = document.getElementById('dealHeroVideoLoop');
 
-heroBg.style.backgroundImage = `url('${d.image}')`;
+const usesVideo = Boolean(d.video);
+const videoSrc = d.video || null;
+const loopVideoSrc = d.loopVideo || null;
+const INTRO_PLAYBACK = 0.7;
+const CROSSFADE_MS = 600;
+const LOOP_LEAD = 0.45;
+
+const showHeroImage = () => {
+  heroBg.style.backgroundImage = `url('${d.image}')`;
+  hero.classList.remove('has-video', 'has-video-pending');
+  hero.classList.add('has-image');
+};
+
+const showHeroVideo = () => {
+  hero.classList.remove('has-image', 'has-video-pending');
+  hero.classList.add('has-video');
+};
+
+const safePlay = video => video?.play().catch(() => {});
+
 document.getElementById('dealBadge').textContent = "Today's Deal · " + dayNames[today];
 document.getElementById('dealTitle').innerHTML = d.title;
 document.getElementById('dealPrice').textContent = d.price;
 document.getElementById('dealDesc').textContent = d.desc;
 document.getElementById('dealTime').textContent = d.time;
 
-const videoSrc = d.video || `/deal-${dayKeys[today]}.mp4`;
-const loopVideoSrc = d.loopVideo || null;
-const INTRO_PLAYBACK = 0.7;
-const CROSSFADE_MS = 600;
-const LOOP_LEAD = 0.45;
-
-const showHeroVideo = () => {
-  hero.classList.remove('has-image');
-  hero.classList.add('has-video');
-};
-
-const safePlay = video => video?.play().catch(() => {});
-
-if (loopVideoSrc) {
-  let showing = heroVideo;
-  let hidden = heroVideoLoop;
-  let crossfading = false;
-
-  heroVideoLoop.src = loopVideoSrc;
-  heroVideoLoop.load();
-
-  const crossfadeTo = (incoming, outgoing) => {
-    if (crossfading) return;
-    crossfading = true;
-
-    incoming.playbackRate = 1;
-    incoming.loop = true;
-    incoming.currentTime = 0;
-    safePlay(incoming);
-    safePlay(outgoing);
-
-    incoming.classList.remove('is-active', 'is-instant-off', 'is-visible');
-    incoming.classList.add('is-fading-in');
-    requestAnimationFrame(() => requestAnimationFrame(() => incoming.classList.add('is-visible')));
-
-    window.setTimeout(() => {
-      outgoing.pause();
-      outgoing.classList.remove('is-active');
-      outgoing.classList.add('is-instant-off');
-      incoming.classList.remove('is-fading-in', 'is-visible');
-      incoming.classList.add('is-active');
-      crossfading = false;
-    }, CROSSFADE_MS);
-  };
-
-  const crossfadeLoop = () => {
-    if (crossfading || showing !== heroVideo) return;
-    const outgoing = showing;
-    const incoming = hidden;
-    crossfadeTo(incoming, outgoing);
-    showing = incoming;
-    hidden = outgoing;
-  };
-
-  const onIntroTimeupdate = () => {
-    if (crossfading || showing !== heroVideo) return;
-    const dur = heroVideo.duration;
-    if (!dur || !Number.isFinite(dur)) return;
-    if (heroVideo.currentTime >= dur - LOOP_LEAD) crossfadeLoop();
-  };
-
-  heroVideo.addEventListener('loadeddata', () => {
-    showHeroVideo();
-    heroVideo.playbackRate = INTRO_PLAYBACK;
-    heroVideo.loop = false;
-    heroVideo.classList.add('is-active');
-    safePlay(heroVideo);
-  });
-  heroVideo.addEventListener('timeupdate', onIntroTimeupdate);
-  heroVideo.addEventListener('ended', crossfadeLoop);
-  heroVideo.addEventListener('error', () => {
-    hero.classList.remove('has-video');
-    hero.classList.add('has-image');
-    heroVideo.removeAttribute('src');
-    heroVideo.load();
-  });
-  heroVideo.src = videoSrc;
-  heroVideo.load();
+if (!usesVideo) {
+  showHeroImage();
 } else {
-  heroVideo.addEventListener('loadeddata', () => {
+  hero.classList.add('has-video-pending');
+
+  const onVideoReady = () => {
     showHeroVideo();
-    heroVideo.loop = true;
-    heroVideo.playbackRate = 1;
     heroVideo.classList.add('is-active');
     safePlay(heroVideo);
-  });
-  heroVideo.addEventListener('error', () => {
-    hero.classList.remove('has-video');
-    hero.classList.add('has-image');
+  };
+
+  const onVideoError = () => {
     heroVideo.removeAttribute('src');
     heroVideo.load();
-  });
-  heroVideo.src = videoSrc;
-  heroVideo.load();
+    showHeroImage();
+  };
+
+  if (loopVideoSrc) {
+    let showing = heroVideo;
+    let hidden = heroVideoLoop;
+    let crossfading = false;
+
+    heroVideoLoop.src = loopVideoSrc;
+    heroVideoLoop.load();
+
+    const crossfadeTo = (incoming, outgoing) => {
+      if (crossfading) return;
+      crossfading = true;
+
+      incoming.playbackRate = 1;
+      incoming.loop = true;
+      incoming.currentTime = 0;
+      safePlay(incoming);
+      safePlay(outgoing);
+
+      incoming.classList.remove('is-active', 'is-instant-off', 'is-visible');
+      incoming.classList.add('is-fading-in');
+      requestAnimationFrame(() => requestAnimationFrame(() => incoming.classList.add('is-visible')));
+
+      window.setTimeout(() => {
+        outgoing.pause();
+        outgoing.classList.remove('is-active');
+        outgoing.classList.add('is-instant-off');
+        incoming.classList.remove('is-fading-in', 'is-visible');
+        incoming.classList.add('is-active');
+        crossfading = false;
+      }, CROSSFADE_MS);
+    };
+
+    const crossfadeLoop = () => {
+      if (crossfading || showing !== heroVideo) return;
+      const outgoing = showing;
+      const incoming = hidden;
+      crossfadeTo(incoming, outgoing);
+      showing = incoming;
+      hidden = outgoing;
+    };
+
+    const onIntroTimeupdate = () => {
+      if (crossfading || showing !== heroVideo) return;
+      const dur = heroVideo.duration;
+      if (!dur || !Number.isFinite(dur)) return;
+      if (heroVideo.currentTime >= dur - LOOP_LEAD) crossfadeLoop();
+    };
+
+    heroVideo.addEventListener('loadeddata', () => {
+      heroVideo.playbackRate = INTRO_PLAYBACK;
+      heroVideo.loop = false;
+      onVideoReady();
+    }, { once: true });
+    heroVideo.addEventListener('timeupdate', onIntroTimeupdate);
+    heroVideo.addEventListener('ended', crossfadeLoop);
+    heroVideo.addEventListener('error', onVideoError, { once: true });
+    heroVideo.src = videoSrc;
+    heroVideo.load();
+    if (heroVideo.readyState >= 2) {
+      heroVideo.playbackRate = INTRO_PLAYBACK;
+      heroVideo.loop = false;
+      onVideoReady();
+    }
+  } else {
+    heroVideo.addEventListener('loadeddata', () => {
+      heroVideo.loop = true;
+      heroVideo.playbackRate = 1;
+      onVideoReady();
+    }, { once: true });
+    heroVideo.addEventListener('error', onVideoError, { once: true });
+    heroVideo.src = videoSrc;
+    heroVideo.load();
+    if (heroVideo.readyState >= 2) {
+      heroVideo.loop = true;
+      heroVideo.playbackRate = 1;
+      onVideoReady();
+    }
+  }
 }
 // expand today's strip by default and mark it
 document.querySelectorAll('.strip').forEach(s => {
