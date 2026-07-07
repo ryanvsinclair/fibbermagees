@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Menu &amp; Deals | Fibber Magee's</title>
+<meta name="description" content="Fibber Magee's SZR menu and weekly deals. Pub grub, award winning Guinness, and a different deal every day of the week.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green-950:#081f16;
+  --green-900:#0d2b1f;
+  --green-800:#12382a;
+  --green-700:#1a4a37;
+  --nav-footer:var(--green-900);
+  --nav-footer-rgb:13,43,31;
+  --cream:#f6f1e5;
+  --cream-soft:#efe7d6;
+  --gold:#c9a24b;
+  --gold-light:#e2c887;
+  --beer:#d4a017;
+  --beer-light:#e8b832;
+  --emerald:#10b981;
+  --emerald-light:#34d399;
+  --ink:#1c1a15;
+  --ink-soft:#5a564c;
+  --radius:18px;
+  --shadow:0 20px 50px -20px rgba(8,31,22,.35);
+  --ease:cubic-bezier(.22,.9,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{
+  height:100%;background:var(--nav-footer);
+  overscroll-behavior:none;scroll-behavior:smooth;
+}
+body{
+  min-height:100%;
+  min-height:100dvh;
+  display:flex;flex-direction:column;
+  overscroll-behavior:none;
+  font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+main{flex:1 0 auto}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:'Fraunces',serif}
+
+/* ---------- Header ---------- */
+header{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px clamp(20px,5vw,56px);
+  transition:transform .4s var(--ease), background .4s var(--ease), box-shadow .4s var(--ease), padding .4s var(--ease);
+}
+header.scrolled{background:rgba(var(--nav-footer-rgb),.9);backdrop-filter:blur(18px) saturate(1.15);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:10px clamp(20px,5vw,56px)}
+.brand{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--cream)}
+.logo-tagline{
+  font-family:'Outfit',sans-serif;font-size:.58rem;font-weight:700;
+  letter-spacing:.3em;text-transform:uppercase;color:#fff;line-height:1;
+}
+header.scrolled .logo-tagline{font-size:.52rem;letter-spacing:.26em}
+footer .logo-tagline{font-size:.65rem}
+footer .brand{gap:6px}
+.brand img.logo{
+  height:88px;width:auto;flex:none;
+  transition:height .4s var(--ease);
+  filter:brightness(0) invert(1);
+}
+header.scrolled .brand img.logo{height:66px}
+footer .brand img.logo{height:96px}
+nav{display:flex;align-items:center;gap:clamp(14px,2.5vw,34px)}
+nav a{color:var(--cream);font-size:.86rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;position:relative;padding:6px 0}
+nav a:not(.btn)::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--gold);transition:width .3s var(--ease)}
+nav a:not(.btn):hover::after{width:100%}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 26px;border-radius:999px;
+  font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+  cursor:pointer;border:none;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-gold{background:var(--gold);color:var(--green-950)}
+.btn-gold:hover{background:var(--gold-light);box-shadow:0 12px 30px -10px rgba(201,162,75,.6)}
+.btn-beer{background:var(--beer);color:var(--green-950)}
+.btn-beer:hover{background:var(--beer-light);box-shadow:0 12px 30px -10px rgba(212,160,23,.55)}
+.btn-whatsapp{background:var(--emerald);color:#fff}
+.btn-whatsapp:hover{background:var(--emerald-light);box-shadow:0 12px 30px -10px rgba(16,185,129,.55)}
+.btn-outline{border:1.5px solid rgba(246,241,229,.55);color:var(--cream)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold-light)}
+nav a.btn::after{display:none}
+.nav-toggle{display:none}
+.nav-toggle-icon{display:block;width:24px;height:18px;position:relative}
+.nav-toggle-icon span{
+  display:block;position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:1px;
+  transition:transform .35s var(--ease), opacity .25s var(--ease), top .35s var(--ease);
+}
+.nav-toggle-icon span:nth-child(1){top:0}
+.nav-toggle-icon span:nth-child(2){top:8px}
+.nav-toggle-icon span:nth-child(3){top:16px}
+.nav-toggle.is-open .nav-toggle-icon span:nth-child(1){top:8px;transform:rotate(45deg)}
+.nav-toggle.is-open .nav-toggle-icon span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-toggle.is-open .nav-toggle-icon span:nth-child(3){top:8px;transform:rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){
+  .nav-toggle-icon span{transition:none}
+}
+.nav-drawer-hit{
+  display:none;position:fixed;top:0;left:0;right:0;height:28px;z-index:101;
+}
+.nav-drawer-hit::after{
+  content:"";position:absolute;left:50%;bottom:4px;transform:translateX(-50%);
+  width:40px;height:3px;border-radius:999px;background:rgba(201,162,75,.4);
+  transition:width .25s var(--ease), background .25s var(--ease);
+}
+body.nav-drawer-active .nav-drawer-hit{display:block}
+body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--gold)}
+@media (min-width:861px){
+  header.drawer-mode{
+    background:rgba(var(--nav-footer-rgb),.9);backdrop-filter:blur(18px) saturate(1.15);
+    padding:10px clamp(20px,5vw,56px);
+  }
+  header.drawer-mode:not(.drawer-open){
+    transform:translateY(-100%);pointer-events:none;box-shadow:none;
+  }
+  header.drawer-mode.drawer-open{
+    transform:translateY(0);pointer-events:auto;
+    box-shadow:0 8px 30px rgba(0,0,0,.18);
+  }
+  header.drawer-mode .brand img.logo{height:66px}
+  header.drawer-mode .logo-tagline{font-size:.52rem;letter-spacing:.26em}
+}
+
+/* ---------- Today's deal hero ---------- */
+.deal-hero{
+  min-height:88svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  color:var(--cream);position:relative;overflow:hidden;
+  background:var(--green-950);
+  padding:160px 24px 90px;
+}
+.deal-hero-media{position:absolute;inset:0;z-index:0;background:#000}
+.deal-hero-bg{
+  position:absolute;inset:0;
+  background:var(--deal-hero-bg, none) center/cover no-repeat var(--green-950);
+  transition:opacity .6s var(--ease);
+}
+.deal-hero-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center 32%;
+  opacity:0;z-index:0;
+}
+.deal-hero.has-video .deal-hero-video.is-active{opacity:1;z-index:1;transition:opacity .6s var(--ease)}
+.deal-hero.has-video .deal-hero-video.is-fading-in{
+  opacity:0;z-index:2;transition:opacity .6s ease-in-out;
+}
+.deal-hero.has-video .deal-hero-video.is-fading-in.is-visible{opacity:1}
+.deal-hero.has-video .deal-hero-video.is-instant-off{opacity:0;z-index:0;transition:none}
+.deal-hero.has-video .deal-hero-video{
+  transform:none;
+  object-fit:cover;
+  object-position:center 32%;
+}
+.deal-hero.has-video .deal-hero-bg{opacity:0}
+.deal-hero-overlay{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(8,31,22,.4) 0%,rgba(8,31,22,.4) 50%,rgba(8,31,22,.4) 100%);
+}
+.deal-hero.has-video .deal-hero-overlay{
+  background:
+    radial-gradient(ellipse 95% 88% at 50% 38%, transparent 50%, rgba(0,0,0,.12) 78%, rgba(0,0,0,.38) 100%);
+  box-shadow:inset 0 0 50px 24px rgba(0,0,0,.25);
+}
+.deal-hero > .hero-content{position:relative;z-index:2}
+.deal-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold);color:var(--green-950);
+  padding:9px 22px;border-radius:999px;
+  font-size:.75rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;margin-bottom:26px;
+  animation:pulse 2.6s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,162,75,.55)}50%{box-shadow:0 0 0 14px rgba(201,162,75,0)}}
+.deal-hero h1{font-size:clamp(2.5rem,7vw,5rem);font-weight:700;line-height:1.05;max-width:16ch;margin:0 auto 14px;color:#fff}
+.deal-hero h1 em{font-style:italic;color:#fff}
+.deal-price{font-family:'Fraunces',serif;font-size:clamp(1.4rem,3vw,2rem);color:#fff;font-weight:600;margin-bottom:14px}
+.deal-hero p{max-width:56ch;margin:0 auto 34px;font-weight:300;font-size:clamp(1rem,1.6vw,1.15rem);color:#fff}
+.deal-meta{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;margin-bottom:36px}
+.deal-meta span{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.deal-meta svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+
+/* ---------- Sections ---------- */
+section{padding:clamp(64px,8vw,110px) clamp(20px,6vw,72px)}
+.section-head{text-align:center;max-width:680px;margin:0 auto clamp(40px,5vw,64px)}
+.kicker{font-size:.75rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:14px}
+.section-head h2{font-size:clamp(2rem,4.4vw,3rem);font-weight:600;line-height:1.12}
+.section-head p{margin-top:14px;color:var(--ink-soft);font-weight:300}
+.rule{width:64px;height:3px;background:var(--gold);margin:22px auto 0;border-radius:2px}
+
+/* deals: expanding day strips */
+.deal-strip{display:flex;gap:12px;max-width:1320px;margin:0 auto;height:540px}
+.strip{
+  position:relative;flex:1;border-radius:var(--radius);overflow:hidden;cursor:pointer;
+  background:var(--green-950);
+  isolation:isolate;
+  transition:flex .7s var(--ease);
+}
+.strip::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:var(--strip-bg) center/cover no-repeat;
+}
+.strip::before{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(8,31,22,.55) 0%,rgba(8,31,22,.35) 40%,rgba(8,31,22,.92) 100%);
+  transition:background .5s var(--ease);
+}
+.strip.expanded.today{
+  z-index:2;
+  animation:todayGlow 2.6s ease-in-out infinite;
+}
+@keyframes todayGlow{
+  0%,100%{
+    filter:drop-shadow(0 0 10px rgba(201,162,75,.9))
+           drop-shadow(0 0 26px rgba(201,162,75,.62))
+           drop-shadow(0 0 48px rgba(201,162,75,.34));
+  }
+  50%{
+    filter:drop-shadow(0 0 16px rgba(201,162,75,1))
+           drop-shadow(0 0 38px rgba(201,162,75,.82))
+           drop-shadow(0 0 68px rgba(201,162,75,.5));
+  }
+}
+.strip:hover::before,.strip.expanded::before{
+  background:linear-gradient(180deg,rgba(8,31,22,.5) 0%,rgba(8,31,22,.45) 35%,rgba(8,31,22,.96) 100%);
+}
+.strip:hover,.strip.expanded{flex:4.2}
+/* when hovering a different strip, collapse the default-expanded one */
+.deal-strip:hover .strip.expanded:not(:hover){flex:1}
+.strip .day-v{
+  position:absolute;top:26px;left:50%;transform:translateX(-50%);
+  writing-mode:vertical-rl;
+  font-family:'Fraunces',serif;font-size:clamp(1.3rem,2.4vw,2rem);font-weight:600;
+  color:var(--cream);letter-spacing:.3em;text-transform:uppercase;white-space:nowrap;
+  text-shadow:0 2px 18px rgba(0,0,0,.45);
+  opacity:1;
+  transition:opacity .45s var(--ease);
+  z-index:3;
+}
+.strip:hover .day-v,
+.strip.expanded .day-v{opacity:0}
+.deal-strip:hover .strip.expanded:not(:hover) .day-v{opacity:1}
+.strip .today-chip{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:var(--green-950);
+  font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  padding:6px 13px;border-radius:999px;white-space:nowrap;z-index:3;
+  display:none;animation:pulse 2.6s ease-in-out infinite;
+}
+.strip.today .today-chip{display:block}
+.strip .content{
+  position:absolute;left:0;right:0;bottom:0;padding:30px 30px 28px;z-index:3;
+  width:min(460px,100%);
+  opacity:0;
+  transition:opacity .45s var(--ease) .12s;
+  pointer-events:none;
+}
+.strip .content p{
+  transform:translateY(28px);
+  transition:transform .55s var(--ease) .08s;
+}
+.strip:hover .content,.strip.expanded .content{opacity:1}
+.strip:hover .content p,.strip.expanded .content p{transform:translateY(0)}
+.deal-strip:hover .strip.expanded:not(:hover) .content{opacity:0}
+.deal-strip:hover .strip.expanded:not(:hover) .content p{transform:translateY(28px)}
+.strip .content .tag{
+  display:inline-block;background:var(--gold);color:var(--green-950);
+  font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  padding:5px 12px;border-radius:999px;margin-bottom:12px;
+}
+.strip .content h3{font-size:clamp(1.3rem,2vw,1.7rem);font-weight:600;color:var(--cream);margin-bottom:4px;white-space:nowrap}
+.strip .content .price{font-family:'Fraunces',serif;font-size:1.05rem;color:var(--gold-light);font-weight:600;margin-bottom:10px}
+.strip .content p{color:rgba(246,241,229,.82);font-weight:300;font-size:.9rem;line-height:1.55}
+.strip .content .time{margin-top:14px;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,229,.7);display:flex;align-items:center;gap:8px}
+.strip .content .time svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round}
+.deals-note{max-width:1320px;margin:22px auto 0;text-align:center;font-size:.85rem;color:var(--ink-soft);font-weight:300}
+@media (max-width:900px){
+  .deal-strip{flex-direction:column;height:auto}
+  .strip{flex:none;height:84px;transition:height .6s var(--ease)}
+  .strip:hover,.strip.expanded{flex:none;height:340px}
+  .deal-strip:hover .strip.expanded:not(:hover){height:84px}
+  .strip .day-v{writing-mode:horizontal-tb;top:50%;left:28px;transform:translateY(-50%);letter-spacing:.24em;transition:opacity .45s var(--ease)}
+  .strip:hover .day-v,
+  .strip.expanded .day-v{opacity:0}
+  .deal-strip:hover .strip.expanded:not(:hover) .day-v{opacity:1}
+  .strip .today-chip{bottom:auto;top:50%;transform:translateY(-50%);left:auto;right:24px}
+  .strip:hover .today-chip,.strip.expanded .today-chip{top:30px;transform:none}
+  .strip .content h3{white-space:normal}
+}
+
+/* menu */
+.menu-wrap{background:var(--green-950);color:var(--cream);border-radius:clamp(0px,3vw,36px);margin:0 clamp(0px,2vw,24px)}
+.menu-wrap .section-head h2{color:var(--cream)}
+.menu-wrap .section-head p{color:rgba(246,241,229,.7)}
+.menu-tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:clamp(34px,4vw,50px)}
+.menu-tab{
+  background:none;border:1.5px solid rgba(246,241,229,.3);color:rgba(246,241,229,.8);
+  padding:10px 22px;border-radius:999px;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--ease);
+}
+.menu-tab:hover{border-color:var(--gold);color:var(--gold-light)}
+.menu-tab.active{background:var(--gold);border-color:var(--gold);color:var(--green-950)}
+.menu-panel{display:none;max-width:1100px;margin:0 auto}
+.menu-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);animation:fadeIn .5s var(--ease)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.menu-col h3{font-size:1.3rem;color:var(--gold-light);font-weight:600;margin:26px 0 14px;padding-bottom:8px;border-bottom:1px solid rgba(201,162,75,.25)}
+.menu-col h3:first-child{margin-top:0}
+.mi{display:flex;justify-content:space-between;gap:16px;padding:9px 0;align-items:baseline}
+.mi + .mi{border-top:1px dashed rgba(246,241,229,.1)}
+.mi .name{font-weight:400;color:rgba(246,241,229,.92)}
+.mi .name small{display:block;font-weight:300;font-size:.83rem;color:rgba(246,241,229,.55)}
+.mi .p{font-family:'Fraunces',serif;color:var(--gold-light);font-weight:600;white-space:nowrap}
+.mi .star{color:var(--gold);margin-right:6px}
+.mi.fav .name{color:var(--gold-light);font-weight:500}
+.note{font-size:.8rem;color:rgba(246,241,229,.5);font-weight:300;margin-top:18px;font-style:italic}
+
+/* fan favourites strip */
+.favs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(16px,2.4vw,26px);max-width:1220px;margin:0 auto}
+.fav-card{
+  background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
+  transition:transform .45s var(--ease);
+}
+.fav-card:hover{transform:translateY(-6px)}
+.fav-card .ph{height:170px;overflow:hidden}
+.fav-card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.fav-card:hover .ph img{transform:scale(1.06)}
+.fav-body{padding:22px 24px 26px}
+.fav-body .why{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:6px}
+.fav-body h3{font-size:1.2rem;font-weight:600;margin-bottom:6px}
+.fav-body p{color:var(--ink-soft);font-weight:300;font-size:.92rem}
+
+/* footer */
+footer{
+  flex-shrink:0;
+  background:var(--nav-footer);color:rgba(246,241,229,.78);
+  padding:56px clamp(20px,6vw,72px) calc(36px + env(safe-area-inset-bottom, 0px));
+  text-align:center;
+}
+footer .brand{justify-content:center;margin-bottom:18px}
+footer nav{justify-content:center;margin-bottom:26px;flex-wrap:wrap}
+footer nav a{color:rgba(246,241,229,.85);font-size:.78rem}
+footer .fine{font-size:.8rem;font-weight:300}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}
+
+/* ---------- Booking modal ---------- */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;background:rgba(8,31,22,.75);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .35s var(--ease);
+}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal{
+  background:var(--cream);border-radius:calc(var(--radius) + 4px);box-shadow:0 40px 90px -20px rgba(0,0,0,.5);
+  width:min(560px,100%);max-height:90svh;overflow-y:auto;padding:clamp(28px,5vw,44px);position:relative;text-align:left;
+  transform:translateY(24px) scale(.97);transition:transform .35s var(--ease);
+}
+.modal-overlay.open .modal{transform:none}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;
+  background:none;border:1.5px solid rgba(28,26,21,.2);color:var(--ink);font-size:1.2rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);
+}
+.modal-close:hover{background:var(--green-900);color:var(--cream);border-color:var(--green-900)}
+.modal h2{font-size:1.8rem;font-weight:600;margin-bottom:4px}
+.modal .sub{color:var(--ink-soft);font-weight:300;font-size:.95rem;margin-bottom:24px}
+.modal form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--green-900)}
+.field input,.field select{
+  font-family:'Outfit',sans-serif;font-size:.95rem;color:var(--ink);
+  background:#fff;border:1.5px solid rgba(28,26,21,.15);border-radius:12px;padding:12px 14px;outline:none;
+  transition:border-color .3s;
+}
+.field input:focus,.field select:focus{border-color:var(--gold)}
+.modal .btn{grid-column:1/-1;justify-content:center;margin-top:6px}
+.modal .alt{grid-column:1/-1;text-align:center;font-size:.85rem;color:var(--ink-soft);font-weight:300}
+.modal .alt a{color:var(--green-900);font-weight:600}
+@media (max-width:520px){.modal form{grid-template-columns:1fr}}
+
+/* ---------- Mobile ---------- */
+@media (max-width:760px){
+  .menu-panel.active{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  header,
+  header.scrolled,
+  header.drawer-mode,
+  body.nav-open header,
+  header.mobile-nav-open{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+  header.scrolled{background:var(--nav-footer)}
+  header.drawer-mode{transform:none!important;pointer-events:auto;background:transparent}
+  header.drawer-mode:not(.drawer-open){transform:none!important;pointer-events:auto}
+  header.scrolled.drawer-mode,
+  body.nav-open header,
+  body.nav-open header.scrolled,
+  header.mobile-nav-open{
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+  .nav-toggle{display:block;background:none;border:none;color:var(--cream);cursor:pointer;z-index:110;padding:4px}
+  .hero-content{transition:opacity .24s var(--ease)}
+  body.nav-open{overflow:hidden;overscroll-behavior:none}
+  body.nav-open header{z-index:106}
+  body.nav-open .site-hero{
+    position:fixed;inset:0;z-index:104;
+    width:100%;height:100%;height:100dvh;min-height:100dvh!important;
+    margin:0;padding-top:clamp(96px,14vh,140px);
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  body.nav-open .site-hero .hero-content{
+    opacity:0;pointer-events:none;
+  }
+  body.nav-open .site-hero .hero-overlay,
+  body.nav-open .site-hero .deal-hero-overlay,
+  body.nav-open .site-hero .delivery-hero-overlay{
+    background:linear-gradient(180deg,rgba(8,31,22,.52) 0%,rgba(8,31,22,.62) 50%,rgba(8,31,22,.78) 100%);
+  }
+  nav{
+    position:fixed;inset:0;z-index:105;
+    display:flex;
+    background:transparent;
+    flex-direction:column;justify-content:center;align-items:center;gap:clamp(26px,4vh,34px);
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .34s var(--ease) .18s, visibility 0s linear .52s;
+  }
+  nav.open{
+    opacity:1;visibility:visible;pointer-events:auto;
+    transition:opacity .34s var(--ease) .18s, visibility 0s;
+  }
+  body.nav-open header,
+  header.mobile-nav-open{transform:none!important}
+  nav a{font-size:1.05rem}
+  @media (prefers-reduced-motion:reduce){
+    .hero-content{transition:none}
+    nav{transition:none}
+  }
+  .deal-hero{
+    min-height:100svh;height:100svh;
+    min-height:100dvh;height:100dvh;
+    padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(32px, env(safe-area-inset-bottom));
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-drawer-hit" id="navDrawerHit" aria-hidden="true"></div>
+<header id="header">
+  <a class="brand" href="/" aria-label="Fibber Magee's home">
+    <img class="logo" src="/logo.png" alt="Fibber Magee's">
+    <span class="logo-tagline">Est. 1996 • Dubai</span>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+    <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+  <nav id="nav">
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/delivery">Order Online</a>
+    <a href="/#venues">Our Venues</a>
+    <a href="/franchise">Franchise</a>
+    <a class="btn btn-beer js-book" href="#book">Book a Table</a>
+    <a class="btn btn-whatsapp whatsapp" href="https://api.whatsapp.com/send?phone=971547793063" aria-label="WhatsApp">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .2 0 .8-.2 1.3Z"/></svg>
+      WhatsApp
+    </a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- TODAY'S DEAL HERO (content injected by JS based on the day) -->
+  <section class="deal-hero has-image site-hero" id="dealHero">
+    <div class="deal-hero-media" aria-hidden="true">
+      <div class="deal-hero-bg" id="dealHeroBg"></div>
+      <video class="deal-hero-video is-active" id="dealHeroVideo" autoplay muted playsinline preload="auto"></video>
+      <video class="deal-hero-video" id="dealHeroVideoLoop" muted playsinline preload="auto"></video>
+    </div>
+    <div class="deal-hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+    <span class="deal-badge" id="dealBadge">Today's Deal</span>
+    <h1 id="dealTitle">Loading the good stuff...</h1>
+    <div class="deal-price" id="dealPrice"></div>
+    <p id="dealDesc"></p>
+    <div class="deal-meta">
+      <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span id="dealTime"></span></span>
+      <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Fibbers SZR</span>
+    </div>
+    <div class="hero-ctas">
+      <a class="btn btn-beer js-book" href="#book">Book a Table</a>
+      <a class="btn btn-outline" href="#deals">All Weekly Deals</a>
+    </div>
+    </div>
+  </section>
+
+  <!-- WEEKLY DEALS -->
+  <section id="deals">
+    <div class="section-head reveal">
+      <span class="kicker">Seven Days of Craic</span>
+      <h2>A deal for every day of the week</h2>
+      <p>All promotions apply at Fibbers SZR. See in-house T&amp;Cs for full details.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="deal-strip reveal">
+      <article class="strip" data-day="0" style="--strip-bg:url('/deal-sunday.png')">
+        <span class="day-v">Sunday</span>
+        <span class="today-chip">Today</span>
+        <div class="content">
+          <span class="tag">Comfort Classic</span>
+          <h3>Sunday Roast + Drink</h3>
+          <div class="price">Roast &amp; house beverage, 120 AED pp</div>
+          <p>A traditional roast dinner with all the trimmings plus a house drink. Eleven hours of roast, because Sunday should never be rushed.</p>
+          <div class="time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>12pm to 11pm</div>
+        </div>
+      </article>
+      <article class="strip" data-day="1" style="--strip-bg:url('/deal-monday.png')">
+        <span class="day-v">Monday</span>
+        <span class="today-chip">Today</span>
+        <div class="content">
+          <span class="tag">Unlimited</span>
+          <h3>Monday Madness</h3>
+          <div class="price">Unlimited house drinks, 170 AED pp</div>
+          <p>Unlimited house drinks including Prosecco and a rotating signature cocktail, with live music. The best cure for a case of the Mondays.</p>
+          <div class="time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>8pm to 11pm</div>
+        </div>
+      </article>
+      <article class="strip" data-day="2" style="--strip-bg:url('/deal-tuesday.png')">
+        <span class="day-v">Tuesday</span>
+        <span class="today-chip">Today</span>
+        <div class="content">
+          <span class="tag">Legendary</span>
+          <h3>Ten AED Steak Night</h3>
+          <div class="price">Ribeye steak, 10 AED</div>
+          <p>The deal that made us famous. A ribeye steak with mashed potatoes for less than a fiver in old money. Just order any drink with it. Dine-in only, once per guest per evening.</p>
+          <div class="time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>7pm to 12am</div>
+        </div>
+      </article>
+      <article class="strip" data-day="3" style="--strip-bg:url('/deal-wednesday.png')">
+        <span class="day-v">Wednesday</span>
+        <span class="today-chip">Today</span>
+        <div class="content">
+          <span class="tag">All Day Value</span>
+          <h3>Happy Hour &amp; Business Lunch</h3>
+          <div class="price">Drinks from 33 AED, lunch 72 AED</div>
+          <p>Nine hours of Happy Hour on all draft, 330ml bottles, house wines and single spirits. Plus any main, burger or toasty with a drink for 72 AED, 12pm to 3pm.</p>
+          <div class="time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>10am to 7pm</div>
+        </div>
+      </article>
+      <article class="strip" data-day="4" style="--strip-bg:url('/deal-thursday.png')">
+        <span class="day-v">Thursday</span>
+        <span class="today-chip">Today</span>
+        <div class="content">
+          <span class="tag">Best Value Night</span>
+          <h3>Thirsty Thursday</h3>
+          <div class="price">Unlimited drinks &amp; appetizers, 240 AED pp</div>
+          <p>Unlimited house drinks plus unlimited appetizers, with live music thrown in. Three hours of as much as you can responsibly manage.</p>
+          <div class="time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>9pm to 12am</div>
+        </div>
+      </article>
+      <article class="strip" data-day="5" style="--strip-bg:url('/deal-friday.png')">
+        <span class="day-v">Friday</span>
+        <span class="today-chip">Today</span>
+        <div class="content">
+          <span class="tag">Weekend Warm-Up</span>
+          <h3>Happy Hour Friday</h3>
+          <div class="price">Drinks from 33 AED</div>
+          <p>Ease into the weekend with nine hours of Happy Hour. All draft, 330ml bottles, house wines and single spirits with mixers.</p>
+          <div class="time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>10am to 7pm</div>
+        </div>
+      </article>
+      <article class="strip" data-day="6" style="--strip-bg:url('/deal-saturday.png')">
+        <span class="day-v">Saturday</span>
+        <span class="today-chip">Today</span>
+        <div class="content">
+          <span class="tag">Voucher Deal</span>
+          <h3>Six on Saturday</h3>
+          <div class="price">6 house beverages, 198 AED</div>
+          <p>Pre-purchase a voucher and get six house beverages at 33 AED a drink. Same drinks as Happy Hour, perfect for match day.</p>
+          <div class="time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>4pm to 8pm</div>
+        </div>
+      </article>
+    </div>
+    <p class="deals-note">Happy Hour runs Sunday to Friday, 10am to 7pm. Business Lunch runs Monday to Saturday, 12pm to 3pm, 72 AED for any main, burger or toasty plus a drink.</p>
+  </section>
+
+  <!-- FAN FAVOURITES -->
+  <section style="padding-top:0">
+    <div class="section-head reveal">
+      <span class="kicker">Don't Miss</span>
+      <h2>The best of the menu</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="favs">
+      <article class="fav-card reveal">
+        <div class="ph"><img src="/full-irish-breakfast.png" alt="Full Irish Breakfast" loading="lazy"></div>
+        <div class="fav-body">
+          <div class="why">The Morning Cure</div>
+          <h3>Full Irish Breakfast</h3>
+          <p>Bacon, sausage, fried egg, black &amp; white pudding, beans, mushroom, tomato, hash brown and toast. Served all day, as it should be.</p>
+        </div>
+      </article>
+      <article class="fav-card reveal d1">
+        <div class="ph"><img src="/guinness-beef-stew.png" alt="Guinness and beef stew" loading="lazy"></div>
+        <div class="fav-body">
+          <div class="why">Signature Comfort</div>
+          <h3>Guinness &amp; Beef Stew</h3>
+          <p>Slow cooked with our award winning Guinness. The most Irish thing on a very Irish menu, alongside the Beef &amp; Guinness Pie.</p>
+        </div>
+      </article>
+      <article class="fav-card reveal d2">
+        <div class="ph"><img src="/irish-spice-bag.png" alt="Irish Spice Bag" loading="lazy"></div>
+        <div class="fav-body">
+          <div class="why">Cult Favourite</div>
+          <h3>Irish Spice Bag</h3>
+          <p>Ireland's favourite late-night order, done properly in Dubai. Pair it with an Irish curry sauce and thank us later.</p>
+        </div>
+      </article>
+      <article class="fav-card reveal">
+        <div class="ph"><img src="/deep-fried-mars-bar.png" alt="Deep Fried Mars Bar" loading="lazy"></div>
+        <div class="fav-body">
+          <div class="why">For the Brave</div>
+          <h3>Deep Fried Mars Bar</h3>
+          <p>Yes, really. And if dessert isn't your thing, there's a whiskey wall running from Jameson to Macallan 30YR and Midleton Very Rare.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- FULL MENU -->
+  <section class="menu-wrap" id="menu">
+    <div class="section-head reveal">
+      <span class="kicker">Fibbers SZR</span>
+      <h2>The Menu</h2>
+      <p>Gold shamrocks mark our favourites. Items marked * contain pork (non-halal).</p>
+      <div class="rule"></div>
+    </div>
+
+    <div class="menu-tabs" role="tablist">
+      <button class="menu-tab active" data-panel="p-breakfast">Breakfast</button>
+      <button class="menu-tab" data-panel="p-apps">Appetisers &amp; Platters</button>
+      <button class="menu-tab" data-panel="p-mains">Mains, Burgers &amp; Chips</button>
+      <button class="menu-tab" data-panel="p-drinks">Drinks</button>
+    </div>
+
+    <!-- BREAKFAST -->
+    <div class="menu-panel active" id="p-breakfast">
+      <div class="menu-col">
+        <h3>All Day Breakfast</h3>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Full Irish Breakfast *<small>Bacon, sausage, fried egg, black &amp; white pudding, beans, mushroom, tomato, hash brown &amp; toast</small></div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Big Breakfast Bap *<small>Bacon, sausage, fried egg, black pudding &amp; hash brown</small></div></div>
+        <div class="mi"><div class="name">Healthy Breakie<small>Avocado, Greek style cheese &amp; cherry tomato on toast with two poached eggs</small></div></div>
+        <div class="mi"><div class="name">Chef's Omelet<small>Cheese, mushroom, peppers, tomato and chilli, with toast</small></div></div>
+        <div class="mi"><div class="name">Eggs Anyway<small>Three scrambled, poached or fried eggs on sourdough with grilled cherry tomatoes</small></div></div>
+        <div class="mi"><div class="name">Cheese on Toast<small>Cheddar on toast with a spicy kick</small></div></div>
+      </div>
+      <div class="menu-col">
+        <h3>Breakfast Baps</h3>
+        <div class="mi"><div class="name">Bacon bap *</div></div>
+        <div class="mi"><div class="name">Sausage bap *</div></div>
+        <div class="mi"><div class="name">Fried egg bap</div></div>
+        <div class="mi"><div class="name">Bacon &amp; egg bap *</div></div>
+        <div class="mi"><div class="name">Sausage &amp; egg bap *</div></div>
+        <div class="mi"><div class="name">Bacon &amp; sausage bap *</div></div>
+        <div class="mi"><div class="name">Sausage, bacon &amp; egg bap *</div></div>
+        <p class="note">* Pork, non-halal</p>
+      </div>
+    </div>
+
+    <!-- APPETISERS -->
+    <div class="menu-panel" id="p-apps">
+      <div class="menu-col">
+        <h3>Appetisers</h3>
+        <div class="mi"><div class="name">Sausage Roll &amp; Curry Sauce *</div></div>
+        <div class="mi"><div class="name">Scotch Egg</div></div>
+        <div class="mi"><div class="name">Cheese &amp; Jalapeño Balls</div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Buffalo Chicken Wings</div></div>
+        <div class="mi"><div class="name">Chicken Goujons</div></div>
+        <div class="mi"><div class="name">Pigs-in-Blankets *</div></div>
+        <div class="mi"><div class="name">Cheese Quesadilla</div></div>
+        <div class="mi"><div class="name">Meaty Cheese Quesadilla</div></div>
+        <div class="mi"><div class="name">Meaty Nachos</div></div>
+        <div class="mi"><div class="name">Breaded Mushrooms</div></div>
+        <div class="mi"><div class="name">Five Spice Calamari</div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Dynamite Shrimp</div></div>
+        <div class="mi"><div class="name">Grilled Prawns</div></div>
+        <p class="note">All appetizers are unlimited on Thirsty Thursday with a wristband.</p>
+      </div>
+      <div class="menu-col">
+        <h3>Sharing Platters</h3>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Snack Platter<small>Pigs in blankets, cheese &amp; jalapeño balls, buffalo wings, breaded mushrooms, grilled prawns, goujons &amp; chips</small></div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Pig-Out-Platter *<small>Pork ribs, sausage, belly, pigs-in-blankets &amp; sausage roll with apple sauce, gravy, soy sauce &amp; chips</small></div></div>
+        <h3>Chips, Your Way</h3>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Irish Spice Bag<small>The cult classic</small></div></div>
+        <div class="mi"><div class="name">Chips<small>Load them up: cheese, Irish curry sauce, gravy, bacon*, chilli con carne, mushy peas, beans &amp; cheese, battered sausage, sausage roll or a floury white bap</small></div></div>
+      </div>
+    </div>
+
+    <!-- MAINS -->
+    <div class="menu-panel" id="p-mains">
+      <div class="menu-col">
+        <h3>Main Courses</h3>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Rib-eye Steak<small>Only 10 AED on Tuesday Steak Night</small></div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Guinness &amp; Beef Stew</div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Fish &amp; Chips</div></div>
+        <div class="mi"><div class="name">Lamb Shank</div></div>
+        <div class="mi"><div class="name">Shepherd's Pie</div></div>
+        <div class="mi"><div class="name">Beef &amp; Guinness Pie</div></div>
+        <div class="mi"><div class="name">Oven Baked Salmon</div></div>
+        <div class="mi"><div class="name">Bangers &amp; Mash *</div></div>
+        <div class="mi"><div class="name">Chilli con Carne</div></div>
+        <div class="mi"><div class="name">Pork Ribs *</div></div>
+        <div class="mi"><div class="name">Gammon &amp; Fried Egg *</div></div>
+        <div class="mi"><div class="name">Ploughman's Plate *<small>Honey roast ham, cheddar, brie, pickled gherkin &amp; Branston pickle with sourdough</small></div></div>
+        <h3>Desserts</h3>
+        <div class="mi"><div class="name">Apple Crumble</div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Deep Fried Mars Bar</div></div>
+      </div>
+      <div class="menu-col">
+        <h3>Burgers &amp; Chips</h3>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Mighty Cheese Burger<small>Prime beef patty, cheese, onion, gherkin, ketchup &amp; mustard</small></div></div>
+        <div class="mi"><div class="name">Double Cheese Burger<small>Two prime beef patties, the full works</small></div></div>
+        <div class="mi"><div class="name">Chicken Magee's Burger<small>Tuscan style chicken patty, burger sauce, onion &amp; tomato</small></div></div>
+        <div class="mi"><div class="name">Beyond Burger<small>Vegetarian Beyond patty, cheese, onion, gherkin, ketchup &amp; mustard</small></div></div>
+        <h3>Toasties &amp; Chips</h3>
+        <div class="mi"><div class="name">Bacon &amp; Cheese *</div></div>
+        <div class="mi"><div class="name">Cheese &amp; Onion</div></div>
+        <div class="mi"><div class="name">Chicken &amp; Avocado</div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Steak &amp; Cheese</div></div>
+        <p class="note">Any main, burger or toasty + a drink = 72 AED Business Lunch, Mon-Sat 12pm-3pm.</p>
+      </div>
+    </div>
+
+    <!-- DRINKS -->
+    <div class="menu-panel" id="p-drinks">
+      <div class="menu-col">
+        <h3>Draft Beer</h3>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Guinness<small>Award winning, 9 million pints poured</small></div><div class="p">50</div></div>
+        <div class="mi"><div class="name">Guinness 0.0</div><div class="p">49</div></div>
+        <div class="mi"><div class="name">Kilkenny</div><div class="p">48</div></div>
+        <div class="mi"><div class="name">Carlsberg</div><div class="p">49</div></div>
+        <div class="mi"><div class="name">Heineken</div><div class="p">58</div></div>
+        <div class="mi"><div class="name">Hoegaarden</div><div class="p">50</div></div>
+        <div class="mi"><div class="name">Peroni</div><div class="p">52</div></div>
+        <div class="mi"><div class="name">Stella Artois</div><div class="p">52</div></div>
+        <div class="mi"><div class="name">Goose Island</div><div class="p">52</div></div>
+        <div class="mi"><div class="name">Hobgoblin IPA</div><div class="p">50</div></div>
+        <div class="mi"><div class="name">Little Fawn IPA</div><div class="p">50</div></div>
+        <div class="mi"><div class="name">Magners / Dark Fruits</div><div class="p">50</div></div>
+        <div class="mi"><div class="name">Strongbow</div><div class="p">44</div></div>
+        <div class="mi"><div class="name">Amstel Light</div><div class="p">55</div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Oryx Dune Basher IPA / Desert Pilsner / Sun Tap Blonde<small>New &amp; exclusive local craft</small></div><div class="p">49</div></div>
+        <h3>By the Glass</h3>
+        <div class="mi"><div class="name">Prosecco</div><div class="p">50</div></div>
+        <div class="mi"><div class="name">House White / Red / Rose</div><div class="p">49</div></div>
+      </div>
+      <div class="menu-col">
+        <h3>The Back Bar</h3>
+        <div class="mi"><div class="name">Irish Whiskey<small>Jameson, Bushmills, Teeling, Tullamore Dew, Redbreast 12YR, the Spot range &amp; rare Midleton Very Rare vintages</small></div></div>
+        <div class="mi"><div class="name">Whisky Wall<small>60+ single malts &amp; blends, from Glenfiddich 12YR up to Glenfiddich 26YR, Hibiki &amp; Johnnie Walker Blue</small></div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>The Macallan Collection<small>Double Cask &amp; Sherry Oak from 12YR to 30YR, plus Rare Cask</small></div></div>
+        <div class="mi"><div class="name">Cocktails<small>All the classics: Espresso Martini, Old Fashioned, Mojito, Margarita, Negroni &amp; the Irish Car Bomb</small></div></div>
+        <div class="mi"><div class="name">Gin, Vodka, Rum, Tequila &amp; Brandy<small>From Gordons Pink to Don Julio 1942 &amp; Hennessey XO</small></div></div>
+        <div class="mi"><div class="name">Shooters<small>Baby Guinness, Jager Bomb, B52 &amp; the rest of the usual suspects</small></div></div>
+        <h3>Softs &amp; Hot Drinks</h3>
+        <div class="mi"><div class="name">Soft drinks, juices &amp; Red Bull</div></div>
+        <div class="mi fav"><div class="name"><span class="star">☘</span>Irish Coffee<small>Jameson or Baileys</small></div></div>
+        <div class="mi"><div class="name">Barry's Irish Tea</div></div>
+        <p class="note">Buying a full bottle? 20% off the equivalent shot price. Menu &amp; prices apply at Fibbers SZR only.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="text-align:center">
+    <div class="section-head reveal" style="margin-bottom:26px">
+      <span class="kicker">Hungry Yet?</span>
+      <h2>Grab a table before the band starts</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="hero-ctas reveal">
+      <a class="btn btn-beer js-book" href="#book">Book a Table</a>
+      <a class="btn" style="background:var(--green-900);color:var(--cream)" href="/delivery">Order Delivery</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <a class="brand" href="/">
+    <img class="logo" src="/logo.png" alt="Fibber Magee's">
+    <span class="logo-tagline">Est. 1996 • Dubai</span>
+  </a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/delivery">Order Online</a>
+    <a href="/#venues">Our Venues</a>
+    <a href="/franchise">Franchise</a>
+    <a href="https://fibbersdubai.com/contact/">Contact Us</a>
+  </nav>
+  <p class="fine">© 2026 Fibber Magee's. All rights reserved.</p>
+</footer>
+
+<!-- BOOK A TABLE MODAL -->
+<div class="modal-overlay" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookTitle">
+  <div class="modal">
+    <button class="modal-close" id="bookClose" aria-label="Close">✕</button>
+    <span class="kicker">Book a Table</span>
+    <h2 id="bookTitle">Reserve your spot</h2>
+    <p class="sub">Fill in the details and we'll confirm your table over WhatsApp.</p>
+    <form id="bookForm">
+      <div class="field"><label for="bkName">Name</label><input id="bkName" type="text" required placeholder="Your name"></div>
+      <div class="field"><label for="bkPhone">Phone</label><input id="bkPhone" type="tel" required placeholder="+971 ..."></div>
+      <div class="field full"><label for="bkVenue">Venue</label>
+        <select id="bkVenue" required>
+          <option value="Downtown">Downtown — Fibbers SZR, Sheikh Zayed Road</option>
+          <option value="Barsha Heights">Barsha Heights — The Four Provinces</option>
+        </select>
+      </div>
+      <div class="field"><label for="bkDate">Date</label><input id="bkDate" type="date" required></div>
+      <div class="field"><label for="bkTime">Time</label><input id="bkTime" type="time" required></div>
+      <div class="field"><label for="bkGuests">Guests</label><input id="bkGuests" type="number" min="1" max="40" value="2" required></div>
+      <div class="field"><label for="bkNotes">Requests</label><input id="bkNotes" type="text" placeholder="Optional"></div>
+      <button class="btn btn-whatsapp" type="submit">Send via WhatsApp</button>
+      <p class="alt">Prefer to call? <a href="tel:+97143322400">+971 4 33 22 400</a></p>
+    </form>
+  </div>
+</div>
+
+<script>
+// sticky header
+const header = document.getElementById('header');
+const navDrawerHit = document.getElementById('navDrawerHit');
+let drawerCloseTimer;
+const isDesktopNav = () => matchMedia('(min-width:861px)').matches;
+function updateNavScrollState(){
+  const scrollable = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+  const pastQuarter = scrollable > 0 && scrollY >= scrollable * 0.1;
+  header.classList.toggle('scrolled', scrollY > 40);
+  const drawerMode = isDesktopNav() && pastQuarter;
+  header.classList.toggle('drawer-mode', drawerMode);
+  document.body.classList.toggle('nav-drawer-active', drawerMode);
+  if (!drawerMode) header.classList.remove('drawer-open');
+}
+function openNavDrawer(){
+  if (!header.classList.contains('drawer-mode')) return;
+  clearTimeout(drawerCloseTimer);
+  header.classList.add('drawer-open');
+}
+function scheduleCloseNavDrawer(){
+  clearTimeout(drawerCloseTimer);
+  drawerCloseTimer = setTimeout(() => header.classList.remove('drawer-open'), 280);
+}
+addEventListener('scroll', updateNavScrollState, {passive:true});
+addEventListener('resize', updateNavScrollState, {passive:true});
+updateNavScrollState();
+navDrawerHit.addEventListener('mouseenter', openNavDrawer);
+navDrawerHit.addEventListener('mouseleave', scheduleCloseNavDrawer);
+header.addEventListener('mouseenter', openNavDrawer);
+header.addEventListener('mouseleave', scheduleCloseNavDrawer);
+// mobile nav
+const nav = document.getElementById('nav');
+const navToggle = document.getElementById('navToggle');
+const isMobileNav = () => matchMedia('(max-width:860px)').matches;
+const syncNavOpenState = () => {
+  if (nav.classList.contains('open') && !isMobileNav()) nav.classList.remove('open');
+  const open = nav.classList.contains('open');
+  const mobile = isMobileNav();
+  document.body.classList.toggle('nav-open', open && mobile);
+  header.classList.toggle('mobile-nav-open', open && mobile);
+  navToggle.classList.toggle('is-open', open);
+  navToggle.setAttribute('aria-expanded', open);
+  navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+  if (open && mobile) header.classList.remove('drawer-open');
+};
+navToggle.addEventListener('click', () => {
+  nav.classList.toggle('open');
+  syncNavOpenState();
+});
+nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  nav.classList.remove('open');
+  syncNavOpenState();
+}));
+addEventListener('resize', syncNavOpenState, {passive:true});
+// scroll reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ----- Today's deal hero -----
+const deals = {
+  0:{title:'Sunday Roast <em>+ Drink</em>', price:'120 AED per person', time:'12pm to 11pm', image:'/deal-sunday.png',
+     desc:"A traditional roast dinner with all the trimmings plus a house beverage. Available all day, because Sundays were made for roasts."},
+  1:{title:'Monday <em>Madness</em>', price:'Unlimited house drinks, 170 AED pp', time:'8pm to 11pm', image:'/deal-monday.png',
+     desc:"Unlimited house drinks including Prosecco and this week's signature cocktail, with live music. The finest way to fix a Monday."},
+  2:{title:'Ten AED <em>Steak Night</em>', price:'Ribeye steak, just 10 AED', time:'7pm to 12am', image:'/deal-tuesday.png',
+     video:'/deal-tuesday.mp4', loopVideo:'/deal-tuesday-loop.mp4',
+     desc:"Our legendary deal. A ribeye steak with mashed potatoes for ten dirhams, every Tuesday. Just order any drink alongside it. Dine-in only."},
+  3:{title:'Happy Hour <em>All Day</em>', price:'Drinks from 33 AED', time:'10am to 7pm', image:'/deal-wednesday.png',
+     desc:"No headline promo on Wednesdays, but nine hours of Happy Hour more than makes up for it. All draft, bottles, house wines and spirits. Plus Business Lunch at 72 AED from 12pm to 3pm."},
+  4:{title:'Thirsty <em>Thursday</em>', price:'Unlimited drinks & appetizers, 240 AED pp', time:'9pm to 12am', image:'/deal-thursday.png',
+     desc:"Unlimited house drinks AND unlimited appetizers with live music. The best value night out on Sheikh Zayed Road."},
+  5:{title:'Happy Hour <em>Friday</em>', price:'Drinks from 33 AED', time:'10am to 7pm', image:'/deal-friday.png',
+     desc:"Ease into the weekend with nine hours of Happy Hour. All draft, 330ml bottles, house wines and single spirits with mixers."},
+  6:{title:'Six on <em>Saturday</em>', price:'6 house beverages, 198 AED', time:'4pm to 8pm', image:'/deal-saturday.png',
+     desc:"Pre-purchase your voucher and enjoy six house beverages at 33 AED a pop. Perfect for the football."}
+};
+const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const dayKeys = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+const today = new Date().getDay();
+const d = deals[today];
+const hero = document.getElementById('dealHero');
+const heroBg = document.getElementById('dealHeroBg');
+const heroVideo = document.getElementById('dealHeroVideo');
+const heroVideoLoop = document.getElementById('dealHeroVideoLoop');
+
+heroBg.style.backgroundImage = `url('${d.image}')`;
+document.getElementById('dealBadge').textContent = "Today's Deal · " + dayNames[today];
+document.getElementById('dealTitle').innerHTML = d.title;
+document.getElementById('dealPrice').textContent = d.price;
+document.getElementById('dealDesc').textContent = d.desc;
+document.getElementById('dealTime').textContent = d.time;
+
+const videoSrc = d.video || `/deal-${dayKeys[today]}.mp4`;
+const loopVideoSrc = d.loopVideo || null;
+const INTRO_PLAYBACK = 0.7;
+const CROSSFADE_MS = 600;
+const LOOP_LEAD = 0.45;
+
+const showHeroVideo = () => {
+  hero.classList.remove('has-image');
+  hero.classList.add('has-video');
+};
+
+const safePlay = video => video?.play().catch(() => {});
+
+if (loopVideoSrc) {
+  let showing = heroVideo;
+  let hidden = heroVideoLoop;
+  let crossfading = false;
+
+  heroVideoLoop.src = loopVideoSrc;
+  heroVideoLoop.load();
+
+  const crossfadeTo = (incoming, outgoing) => {
+    if (crossfading) return;
+    crossfading = true;
+
+    incoming.playbackRate = 1;
+    incoming.loop = true;
+    incoming.currentTime = 0;
+    safePlay(incoming);
+    safePlay(outgoing);
+
+    incoming.classList.remove('is-active', 'is-instant-off', 'is-visible');
+    incoming.classList.add('is-fading-in');
+    requestAnimationFrame(() => requestAnimationFrame(() => incoming.classList.add('is-visible')));
+
+    window.setTimeout(() => {
+      outgoing.pause();
+      outgoing.classList.remove('is-active');
+      outgoing.classList.add('is-instant-off');
+      incoming.classList.remove('is-fading-in', 'is-visible');
+      incoming.classList.add('is-active');
+      crossfading = false;
+    }, CROSSFADE_MS);
+  };
+
+  const crossfadeLoop = () => {
+    if (crossfading || showing !== heroVideo) return;
+    const outgoing = showing;
+    const incoming = hidden;
+    crossfadeTo(incoming, outgoing);
+    showing = incoming;
+    hidden = outgoing;
+  };
+
+  const onIntroTimeupdate = () => {
+    if (crossfading || showing !== heroVideo) return;
+    const dur = heroVideo.duration;
+    if (!dur || !Number.isFinite(dur)) return;
+    if (heroVideo.currentTime >= dur - LOOP_LEAD) crossfadeLoop();
+  };
+
+  heroVideo.addEventListener('loadeddata', () => {
+    showHeroVideo();
+    heroVideo.playbackRate = INTRO_PLAYBACK;
+    heroVideo.loop = false;
+    heroVideo.classList.add('is-active');
+    safePlay(heroVideo);
+  });
+  heroVideo.addEventListener('timeupdate', onIntroTimeupdate);
+  heroVideo.addEventListener('ended', crossfadeLoop);
+  heroVideo.addEventListener('error', () => {
+    hero.classList.remove('has-video');
+    hero.classList.add('has-image');
+    heroVideo.removeAttribute('src');
+    heroVideo.load();
+  });
+  heroVideo.src = videoSrc;
+  heroVideo.load();
+} else {
+  heroVideo.addEventListener('loadeddata', () => {
+    showHeroVideo();
+    heroVideo.loop = true;
+    heroVideo.playbackRate = 1;
+    heroVideo.classList.add('is-active');
+    safePlay(heroVideo);
+  });
+  heroVideo.addEventListener('error', () => {
+    hero.classList.remove('has-video');
+    hero.classList.add('has-image');
+    heroVideo.removeAttribute('src');
+    heroVideo.load();
+  });
+  heroVideo.src = videoSrc;
+  heroVideo.load();
+}
+// expand today's strip by default and mark it
+document.querySelectorAll('.strip').forEach(s => {
+  if (+s.dataset.day === today) s.classList.add('expanded','today');
+  // tap-to-expand on touch devices
+  s.addEventListener('click', () => {
+    document.querySelectorAll('.strip').forEach(o => { if (o !== s) o.classList.remove('expanded'); });
+    s.classList.add('expanded');
+  });
+});
+
+// ----- menu tabs -----
+document.querySelectorAll('.menu-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.panel).classList.add('active');
+  });
+});
+
+// ----- booking modal -----
+const modal = document.getElementById('bookModal');
+const openModal = e => { e.preventDefault(); modal.classList.add('open'); document.body.style.overflow = 'hidden'; };
+const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
+document.querySelectorAll('.js-book').forEach(el => el.addEventListener('click', openModal));
+document.getElementById('bookClose').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.getElementById('bkDate').min = new Date().toISOString().split('T')[0];
+document.getElementById('bookForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const g = id => document.getElementById(id).value;
+  const msg = `Hi Fibber Magee's! I'd like to book a table.%0A%0AName: ${encodeURIComponent(g('bkName'))}%0APhone: ${encodeURIComponent(g('bkPhone'))}%0AVenue: ${encodeURIComponent(g('bkVenue'))}%0ADate: ${encodeURIComponent(g('bkDate'))}%0ATime: ${encodeURIComponent(g('bkTime'))}%0AGuests: ${encodeURIComponent(g('bkGuests'))}${g('bkNotes') ? '%0ARequests: ' + encodeURIComponent(g('bkNotes')) : ''}`;
+  window.open(`https://api.whatsapp.com/send?phone=971547793063&text=${msg}`, '_blank');
+  closeModal();
+});
+</script>
+</body>
+</html>

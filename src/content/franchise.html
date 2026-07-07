@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Franchise Opportunities | Fibber Magee's</title>
+<meta name="description" content="Franchise with Fibber Magee's, the oldest Irish pub in the MENA region. Opening doors to franchisees in 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green-950:#081f16;
+  --green-900:#0d2b1f;
+  --green-800:#12382a;
+  --green-700:#1a4a37;
+  --nav-footer:var(--green-900);
+  --nav-footer-rgb:13,43,31;
+  --cream:#f6f1e5;
+  --cream-soft:#efe7d6;
+  --gold:#c9a24b;
+  --gold-light:#e2c887;
+  --beer:#d4a017;
+  --beer-light:#e8b832;
+  --emerald:#10b981;
+  --emerald-light:#34d399;
+  --ink:#1c1a15;
+  --ink-soft:#5a564c;
+  --radius:18px;
+  --shadow:0 20px 50px -20px rgba(8,31,22,.35);
+  --ease:cubic-bezier(.22,.9,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{
+  height:100%;background:var(--nav-footer);
+  overscroll-behavior:none;scroll-behavior:smooth;
+}
+body{
+  min-height:100%;
+  min-height:100dvh;
+  display:flex;flex-direction:column;
+  overscroll-behavior:none;
+  font-family:'Outfit',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+main{flex:1 0 auto}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:'Fraunces',serif}
+
+/* ---------- Header ---------- */
+header{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px clamp(20px,5vw,56px);
+  transition:transform .4s var(--ease), background .4s var(--ease), box-shadow .4s var(--ease), padding .4s var(--ease);
+}
+header.scrolled{background:rgba(var(--nav-footer-rgb),.9);backdrop-filter:blur(18px) saturate(1.15);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:10px clamp(20px,5vw,56px)}
+.brand{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--cream)}
+.logo-tagline{
+  font-family:'Outfit',sans-serif;font-size:.58rem;font-weight:700;
+  letter-spacing:.3em;text-transform:uppercase;color:#fff;line-height:1;
+}
+header.scrolled .logo-tagline{font-size:.52rem;letter-spacing:.26em}
+footer .logo-tagline{font-size:.65rem}
+footer .brand{gap:6px}
+.brand img.logo{
+  height:88px;width:auto;flex:none;
+  transition:height .4s var(--ease);
+  filter:brightness(0) invert(1);
+}
+header.scrolled .brand img.logo{height:66px}
+footer .brand img.logo{height:96px}
+nav{display:flex;align-items:center;gap:clamp(14px,2.5vw,34px)}
+nav a{color:var(--cream);font-size:.86rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;position:relative;padding:6px 0}
+nav a:not(.btn)::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--gold);transition:width .3s var(--ease)}
+nav a:not(.btn):hover::after{width:100%}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 26px;border-radius:999px;
+  font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+  cursor:pointer;border:none;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-gold{background:var(--gold);color:var(--green-950)}
+.btn-gold:hover{background:var(--gold-light);box-shadow:0 12px 30px -10px rgba(201,162,75,.6)}
+.btn-beer{background:var(--beer);color:var(--green-950)}
+.btn-beer:hover{background:var(--beer-light);box-shadow:0 12px 30px -10px rgba(212,160,23,.55)}
+.btn-whatsapp{background:var(--emerald);color:#fff}
+.btn-whatsapp:hover{background:var(--emerald-light);box-shadow:0 12px 30px -10px rgba(16,185,129,.55)}
+.btn-outline{border:1.5px solid rgba(246,241,229,.55);color:var(--cream)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold-light)}
+nav a.btn::after{display:none}
+.nav-toggle{display:none}
+.nav-toggle-icon{display:block;width:24px;height:18px;position:relative}
+.nav-toggle-icon span{
+  display:block;position:absolute;left:0;right:0;height:2px;background:currentColor;border-radius:1px;
+  transition:transform .35s var(--ease), opacity .25s var(--ease), top .35s var(--ease);
+}
+.nav-toggle-icon span:nth-child(1){top:0}
+.nav-toggle-icon span:nth-child(2){top:8px}
+.nav-toggle-icon span:nth-child(3){top:16px}
+.nav-toggle.is-open .nav-toggle-icon span:nth-child(1){top:8px;transform:rotate(45deg)}
+.nav-toggle.is-open .nav-toggle-icon span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-toggle.is-open .nav-toggle-icon span:nth-child(3){top:8px;transform:rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){
+  .nav-toggle-icon span{transition:none}
+}
+.nav-drawer-hit{
+  display:none;position:fixed;top:0;left:0;right:0;height:28px;z-index:101;
+}
+.nav-drawer-hit::after{
+  content:"";position:absolute;left:50%;bottom:4px;transform:translateX(-50%);
+  width:40px;height:3px;border-radius:999px;background:rgba(201,162,75,.4);
+  transition:width .25s var(--ease), background .25s var(--ease);
+}
+body.nav-drawer-active .nav-drawer-hit{display:block}
+body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--gold)}
+@media (min-width:861px){
+  header.drawer-mode{
+    background:rgba(var(--nav-footer-rgb),.9);backdrop-filter:blur(18px) saturate(1.15);
+    padding:10px clamp(20px,5vw,56px);
+  }
+  header.drawer-mode:not(.drawer-open){
+    transform:translateY(-100%);pointer-events:none;box-shadow:none;
+  }
+  header.drawer-mode.drawer-open{
+    transform:translateY(0);pointer-events:auto;
+    box-shadow:0 8px 30px rgba(0,0,0,.18);
+  }
+  header.drawer-mode .brand img.logo{height:66px}
+  header.drawer-mode .logo-tagline{font-size:.52rem;letter-spacing:.26em}
+}
+
+/* ---------- Page hero (compact, like the live page's title block) ---------- */
+.page-hero{
+  color:var(--cream);text-align:center;position:relative;
+  background:
+    linear-gradient(180deg,rgba(8,31,22,.4) 0%,rgba(8,31,22,.4) 100%),
+    url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fibbers-magee-inside.jpg?fit=800%2C600&ssl=1') center/cover no-repeat var(--green-950);
+  padding:170px 24px 80px;
+}
+.page-hero::after{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:transparent;transition:background .24s var(--ease);
+}
+body.nav-open .site-hero.page-hero::after{
+  background:linear-gradient(180deg,rgba(8,31,22,.52) 0%,rgba(8,31,22,.62) 50%,rgba(8,31,22,.78) 100%);
+}
+.page-hero .hero-content{position:relative;z-index:2}
+.page-hero h1{font-size:clamp(2.3rem,5.5vw,3.8rem);font-weight:700;line-height:1.08;margin-bottom:20px}
+.page-hero .rule{margin:0 auto}
+.page-hero .intro{max-width:70ch;margin:26px auto 0;font-weight:300;font-size:clamp(1rem,1.5vw,1.12rem);color:rgba(246,241,229,.88)}
+.page-hero .intro strong{color:var(--gold-light);font-weight:600}
+
+/* ---------- Sections ---------- */
+section{padding:clamp(64px,8vw,110px) clamp(20px,6vw,72px)}
+.kicker{font-size:.75rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:14px}
+.rule{width:64px;height:3px;background:var(--gold);border-radius:2px}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,64px);align-items:center;max-width:1180px;margin:0 auto}
+.split .ph{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.split .ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.split .ph:hover img{transform:scale(1.04)}
+.split h2{font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:600;line-height:1.15;margin-bottom:18px}
+.split p{color:var(--ink-soft);font-weight:300;margin-bottom:14px}
+.split strong{color:var(--green-900);font-weight:600}
+.split .rule{margin-bottom:22px}
+
+/* shamrock bullet lists, mirroring the live page's lists */
+ul.tick{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:6px}
+ul.tick li{position:relative;padding-left:36px;color:var(--ink-soft);font-weight:300}
+ul.tick li strong{color:var(--green-900);font-weight:600}
+ul.tick li::before{
+  content:"☘";position:absolute;left:0;top:0;
+  color:var(--gold);font-size:1.15rem;line-height:1.5;
+}
+.pledge-wrap ul.tick li{color:rgba(246,241,229,.8)}
+.pledge-wrap ul.tick li strong{color:var(--cream)}
+.pledge-wrap ul.tick li::before{color:var(--gold-light)}
+
+/* pledge section (dark, list + franchisor image, like the live page) */
+.pledge-wrap{background:var(--green-950);color:var(--cream);border-radius:clamp(0px,3vw,36px);margin:0 clamp(0px,2vw,24px)}
+.pledge-wrap h2{color:var(--cream)}
+.pledge-wrap .split p{color:rgba(246,241,229,.75)}
+.pledge-wrap .btn{margin-top:26px}
+.portrait{max-height:640px}
+.portrait img{object-position:top}
+
+/* contact strip, like the live page's contact block */
+.contact-strip{background:var(--cream)}
+.contact-card{
+  max-width:980px;margin:0 auto;background:#fff;border-radius:calc(var(--radius) + 6px);box-shadow:var(--shadow);
+  padding:clamp(40px,6vw,60px);text-align:center;position:relative;overflow:hidden;
+}
+.contact-card::before{content:"";position:absolute;inset:14px;border:1px solid rgba(201,162,75,.4);border-radius:var(--radius);pointer-events:none}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:26px;margin-top:30px}
+.contact-item .label{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:6px}
+.contact-item a{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600;color:var(--green-900);transition:color .3s}
+.contact-item a:hover{color:var(--gold)}
+.socials{display:flex;gap:12px;justify-content:center;margin-top:30px}
+.socials a{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--green-900);display:inline-flex;align-items:center;justify-content:center;color:var(--green-900);transition:all .3s var(--ease)}
+.socials a:hover{background:var(--green-900);color:var(--gold-light);transform:translateY(-3px)}
+.socials svg{width:18px;height:18px;fill:currentColor}
+
+/* footer */
+footer{
+  flex-shrink:0;
+  background:var(--nav-footer);color:rgba(246,241,229,.78);
+  padding:56px clamp(20px,6vw,72px) calc(36px + env(safe-area-inset-bottom, 0px));
+  text-align:center;
+}
+footer .brand{justify-content:center;margin-bottom:18px}
+footer nav{justify-content:center;margin-bottom:26px;flex-wrap:wrap}
+footer nav a{color:rgba(246,241,229,.85);font-size:.78rem}
+footer .fine{font-size:.8rem;font-weight:300}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}
+
+/* ---------- Booking modal ---------- */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;background:rgba(8,31,22,.75);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .35s var(--ease);
+}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal{
+  background:var(--cream);border-radius:calc(var(--radius) + 4px);box-shadow:0 40px 90px -20px rgba(0,0,0,.5);
+  width:min(560px,100%);max-height:90svh;overflow-y:auto;padding:clamp(28px,5vw,44px);position:relative;text-align:left;
+  transform:translateY(24px) scale(.97);transition:transform .35s var(--ease);
+}
+.modal-overlay.open .modal{transform:none}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;
+  background:none;border:1.5px solid rgba(28,26,21,.2);color:var(--ink);font-size:1.2rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);
+}
+.modal-close:hover{background:var(--green-900);color:var(--cream);border-color:var(--green-900)}
+.modal h2{font-size:1.8rem;font-weight:600;margin-bottom:4px}
+.modal .sub{color:var(--ink-soft);font-weight:300;font-size:.95rem;margin-bottom:24px}
+.modal form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--green-900)}
+.field input,.field select,.field textarea{
+  font-family:'Outfit',sans-serif;font-size:.95rem;color:var(--ink);
+  background:#fff;border:1.5px solid rgba(28,26,21,.15);border-radius:12px;padding:12px 14px;outline:none;
+  transition:border-color .3s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.field textarea{resize:vertical;min-height:70px}
+.modal .btn{grid-column:1/-1;justify-content:center;margin-top:6px}
+.modal .alt{grid-column:1/-1;text-align:center;font-size:.85rem;color:var(--ink-soft);font-weight:300}
+.modal .alt a{color:var(--green-900);font-weight:600}
+@media (max-width:520px){.modal form{grid-template-columns:1fr}}
+
+/* ---------- Mobile ---------- */
+@media (max-width:900px){
+  .split{grid-template-columns:1fr}
+  .split .ph{order:-1}
+}
+@media (max-width:860px){
+  header,
+  header.scrolled,
+  header.drawer-mode,
+  body.nav-open header,
+  header.mobile-nav-open{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+  header.scrolled{background:var(--nav-footer)}
+  header.drawer-mode{transform:none!important;pointer-events:auto;background:transparent}
+  header.drawer-mode:not(.drawer-open){transform:none!important;pointer-events:auto}
+  header.scrolled.drawer-mode,
+  body.nav-open header,
+  body.nav-open header.scrolled,
+  header.mobile-nav-open{
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+  .nav-toggle{display:block;background:none;border:none;color:var(--cream);cursor:pointer;z-index:110;padding:4px}
+  .hero-content{transition:opacity .24s var(--ease)}
+  body.nav-open{overflow:hidden;overscroll-behavior:none}
+  body.nav-open header{z-index:106}
+  body.nav-open .site-hero{
+    position:fixed;inset:0;z-index:104;
+    width:100%;height:100%;height:100dvh;min-height:100dvh!important;
+    margin:0;padding-top:clamp(96px,14vh,140px);
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  body.nav-open .site-hero .hero-content{
+    opacity:0;pointer-events:none;
+  }
+  body.nav-open .site-hero .hero-overlay,
+  body.nav-open .site-hero .deal-hero-overlay,
+  body.nav-open .site-hero .delivery-hero-overlay{
+    background:linear-gradient(180deg,rgba(8,31,22,.52) 0%,rgba(8,31,22,.62) 50%,rgba(8,31,22,.78) 100%);
+  }
+  nav{
+    position:fixed;inset:0;z-index:105;
+    display:flex;
+    background:transparent;
+    flex-direction:column;justify-content:center;align-items:center;gap:clamp(26px,4vh,34px);
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .34s var(--ease) .18s, visibility 0s linear .52s;
+  }
+  nav.open{
+    opacity:1;visibility:visible;pointer-events:auto;
+    transition:opacity .34s var(--ease) .18s, visibility 0s;
+  }
+  body.nav-open header,
+  header.mobile-nav-open{transform:none!important}
+  nav a{font-size:1.05rem}
+  @media (prefers-reduced-motion:reduce){
+    .hero-content{transition:none}
+    nav{transition:none}
+  }
+  .page-hero.site-hero{
+    min-height:100svh;height:100svh;
+    min-height:100dvh;height:100dvh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(32px, env(safe-area-inset-bottom));
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-drawer-hit" id="navDrawerHit" aria-hidden="true"></div>
+<header id="header">
+  <a class="brand" href="/" aria-label="Fibber Magee's home">
+    <img class="logo" src="/logo.png" alt="Fibber Magee's">
+    <span class="logo-tagline">Est. 1996 • Dubai</span>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+    <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+  <nav id="nav">
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/delivery">Order Online</a>
+    <a href="/#venues">Our Venues</a>
+    <a href="/franchise">Franchise</a>
+    <a class="btn btn-beer js-book" href="#book">Book a Table</a>
+    <a class="btn btn-whatsapp whatsapp" href="https://api.whatsapp.com/send?phone=971547793063" aria-label="WhatsApp">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.4-.7-2.9-1.1-4.7-4-4.9-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .2 0 .8-.2 1.3Z"/></svg>
+      WhatsApp
+    </a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- TITLE + INTRO (as on the live page) -->
+  <section class="page-hero site-hero">
+    <div class="hero-content">
+    <h1>Franchise Opportunities</h1>
+    <div class="rule"></div>
+    <p class="intro"><strong>Fibber Magee's is an institution.</strong> Famed for being the oldest Irish pub in the MENA region, we have established a reputation for being authentic, traditional and iconic. For over <strong>30 years</strong> we have welcomed expats, tourists and business travellers into our pubs, with over <strong>2 million guests</strong> supping more than <strong>9 million pints</strong> of our award winning <strong>Guinness</strong> since our inception in 1996.</p>
+    </div>
+  </section>
+
+  <!-- ICONIC BRAND: bullet list + image (as on the live page) -->
+  <section>
+    <div class="split">
+      <div class="reveal">
+        <span class="kicker">The Track Record</span>
+        <h2>An Iconic Brand with decades of Success</h2>
+        <div class="rule"></div>
+        <ul class="tick">
+          <li><strong>30 years</strong> and 9 million pints of Guinness</li>
+          <li>Robust <strong>financial returns</strong> for investors</li>
+          <li>Strategic <strong>resilience</strong> during economic challenges</li>
+          <li>Positive <strong>social impact</strong> in the UAE &amp; UK through charitable contributions</li>
+        </ul>
+      </div>
+      <div class="ph reveal d1"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fibbers-magee-inside.jpg?fit=800%2C600&ssl=1" alt="Inside Fibber Magee's" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- OPENING DOORS 2026: image + text (as on the live page) -->
+  <section style="padding-top:0">
+    <div class="split">
+      <div class="ph reveal"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fm-inside-pic1.jpg?fit=800%2C600&ssl=1" alt="Fibber Magee's bar" loading="lazy"></div>
+      <div class="reveal d1">
+        <span class="kicker">The Opportunity</span>
+        <h2>Opening Doors to Franchisees in 2026</h2>
+        <div class="rule"></div>
+        <p style="margin-top:22px">Over the years, we have been approached by many institutional investors, publicans, businesses and families about taking on the <strong>Fibber's brand</strong>. And for years we have scratched our heads and toyed with this idea.</p>
+        <p>So from <strong>2026</strong>, we have decided to open our doors to experienced, passionate and commercially minded <strong>franchisees</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLEDGES: bullet list + email button + franchisor image (as on the live page) -->
+  <section class="pledge-wrap">
+    <div class="split">
+      <div class="reveal">
+        <span class="kicker">Our Commitment</span>
+        <h2>As the franchisor, we pledge the following</h2>
+        <div class="rule"></div>
+        <ul class="tick" style="margin-top:24px">
+          <li>The shared use of our <strong>award winning</strong>, long established and popular brand, Fibber Magee's</li>
+          <li>A smooth, seamless and exciting <strong>onboarding process</strong>, working closely with our team while applying your own creative flair and ideas</li>
+          <li>Full <strong>legal and financial guidance</strong> on incorporation, licensing and permits</li>
+          <li>Access to the best <strong>suppliers and contractors</strong> in the market, with preferential group rates</li>
+          <li><strong>Management support</strong> throughout your tenure</li>
+          <li>Most importantly, we help you build a business and venue you <strong>love</strong>, where the spirit of Fibber's drives superior, sustainable returns</li>
+        </ul>
+        <a class="btn btn-gold" href="mailto:info@fibbersdubai.com">Email Us Now</a>
+      </div>
+      <div class="ph portrait reveal d1"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/franchisor-.jpg?fit=800%2C1068&ssl=1" alt="The Fibber Magee's franchisor" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT (as on the live page) -->
+  <section class="contact-strip">
+    <div class="contact-card reveal">
+      <span class="kicker">Get In Touch</span>
+      <h2 style="font-size:clamp(1.8rem,3.6vw,2.5rem);font-weight:600">Let's talk franchising</h2>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="label">Contact Us</div>
+          <a href="tel:+97143322400">+971 4 33 22 400</a>
+        </div>
+        <div class="contact-item">
+          <div class="label">Email</div>
+          <a href="mailto:info@fibbersdubai.com">info@fibbersdubai.com</a>
+        </div>
+        <div class="contact-item">
+          <div class="label">WhatsApp</div>
+          <a href="https://api.whatsapp.com/send?phone=971547793063">+971 54 779 3063</a>
+        </div>
+      </div>
+      <div class="socials">
+        <a href="https://www.facebook.com/fibbersdubai/" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.6-1.6h1.6V4.2c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v2.6H7.5V14h2.8v8h3.2Z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/fibbermageesdxb/" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.9.2 2.3.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1.1.4 2.3.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.9-.4 2.3a3.8 3.8 0 0 1-2.3 2.3c-.4.2-1.1.4-2.3.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.9-.2-2.3-.4a3.8 3.8 0 0 1-2.3-2.3c-.2-.4-.4-1.1-.4-2.3-.1-1.2-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.2-1.9.4-2.3.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1.1-.4 2.3-.4 1.2-.1 1.6-.1 4.8-.1Zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.3-.6.7-.8 1.2-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.3.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.3.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2a3 3 0 0 0-1.2-.8c-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1Zm0 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 8.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Zm6.4-8.4a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <a class="brand" href="/">
+    <img class="logo" src="/logo.png" alt="Fibber Magee's">
+    <span class="logo-tagline">Est. 1996 • Dubai</span>
+  </a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/menu">Menu</a>
+    <a href="/delivery">Order Online</a>
+    <a href="/#venues">Our Venues</a>
+    <a href="/franchise">Franchise</a>
+    <a href="https://fibbersdubai.com/contact/">Contact Us</a>
+  </nav>
+  <p class="fine">© 2026 Fibber Magee's. All rights reserved.</p>
+</footer>
+
+<!-- BOOK A TABLE MODAL -->
+<div class="modal-overlay" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookTitle">
+  <div class="modal">
+    <button class="modal-close" id="bookClose" aria-label="Close">✕</button>
+    <span class="kicker">Book a Table</span>
+    <h2 id="bookTitle">Reserve your spot</h2>
+    <p class="sub">Fill in the details and we'll confirm your table over WhatsApp.</p>
+    <form id="bookForm">
+      <div class="field"><label for="bkName">Name</label><input id="bkName" type="text" required placeholder="Your name"></div>
+      <div class="field"><label for="bkPhone">Phone</label><input id="bkPhone" type="tel" required placeholder="+971 ..."></div>
+      <div class="field full"><label for="bkVenue">Venue</label>
+        <select id="bkVenue" required>
+          <option value="Downtown">Downtown — Fibbers SZR, Sheikh Zayed Road</option>
+          <option value="Barsha Heights">Barsha Heights — The Four Provinces</option>
+        </select>
+      </div>
+      <div class="field"><label for="bkDate">Date</label><input id="bkDate" type="date" required></div>
+      <div class="field"><label for="bkTime">Time</label><input id="bkTime" type="time" required></div>
+      <div class="field"><label for="bkGuests">Guests</label><input id="bkGuests" type="number" min="1" max="40" value="2" required></div>
+      <div class="field"><label for="bkNotes">Requests</label><input id="bkNotes" type="text" placeholder="Optional"></div>
+      <button class="btn btn-whatsapp" type="submit">Send via WhatsApp</button>
+      <p class="alt">Prefer to call? <a href="tel:+97143322400">+971 4 33 22 400</a></p>
+    </form>
+  </div>
+</div>
+
+<script>
+// sticky header
+const header = document.getElementById('header');
+const navDrawerHit = document.getElementById('navDrawerHit');
+let drawerCloseTimer;
+const isDesktopNav = () => matchMedia('(min-width:861px)').matches;
+function updateNavScrollState(){
+  const scrollable = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+  const pastQuarter = scrollable > 0 && scrollY >= scrollable * 0.1;
+  header.classList.toggle('scrolled', scrollY > 40);
+  const drawerMode = isDesktopNav() && pastQuarter;
+  header.classList.toggle('drawer-mode', drawerMode);
+  document.body.classList.toggle('nav-drawer-active', drawerMode);
+  if (!drawerMode) header.classList.remove('drawer-open');
+}
+function openNavDrawer(){
+  if (!header.classList.contains('drawer-mode')) return;
+  clearTimeout(drawerCloseTimer);
+  header.classList.add('drawer-open');
+}
+function scheduleCloseNavDrawer(){
+  clearTimeout(drawerCloseTimer);
+  drawerCloseTimer = setTimeout(() => header.classList.remove('drawer-open'), 280);
+}
+addEventListener('scroll', updateNavScrollState, {passive:true});
+addEventListener('resize', updateNavScrollState, {passive:true});
+updateNavScrollState();
+navDrawerHit.addEventListener('mouseenter', openNavDrawer);
+navDrawerHit.addEventListener('mouseleave', scheduleCloseNavDrawer);
+header.addEventListener('mouseenter', openNavDrawer);
+header.addEventListener('mouseleave', scheduleCloseNavDrawer);
+// mobile nav
+const nav = document.getElementById('nav');
+const navToggle = document.getElementById('navToggle');
+const isMobileNav = () => matchMedia('(max-width:860px)').matches;
+const syncNavOpenState = () => {
+  if (nav.classList.contains('open') && !isMobileNav()) nav.classList.remove('open');
+  const open = nav.classList.contains('open');
+  const mobile = isMobileNav();
+  document.body.classList.toggle('nav-open', open && mobile);
+  header.classList.toggle('mobile-nav-open', open && mobile);
+  navToggle.classList.toggle('is-open', open);
+  navToggle.setAttribute('aria-expanded', open);
+  navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+  if (open && mobile) header.classList.remove('drawer-open');
+};
+navToggle.addEventListener('click', () => {
+  nav.classList.toggle('open');
+  syncNavOpenState();
+});
+nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  nav.classList.remove('open');
+  syncNavOpenState();
+}));
+addEventListener('resize', syncNavOpenState, {passive:true});
+// scroll reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// booking modal
+const modal = document.getElementById('bookModal');
+const openModal = e => { e.preventDefault(); modal.classList.add('open'); document.body.style.overflow = 'hidden'; };
+const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
+document.querySelectorAll('.js-book').forEach(el => el.addEventListener('click', openModal));
+document.getElementById('bookClose').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.getElementById('bkDate').min = new Date().toISOString().split('T')[0];
+document.getElementById('bookForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const g = id => document.getElementById(id).value;
+  const msg = `Hi Fibber Magee's! I'd like to book a table.%0A%0AName: ${encodeURIComponent(g('bkName'))}%0APhone: ${encodeURIComponent(g('bkPhone'))}%0AVenue: ${encodeURIComponent(g('bkVenue'))}%0ADate: ${encodeURIComponent(g('bkDate'))}%0ATime: ${encodeURIComponent(g('bkTime'))}%0AGuests: ${encodeURIComponent(g('bkGuests'))}${g('bkNotes') ? '%0ARequests: ' + encodeURIComponent(g('bkNotes')) : ''}`;
+  window.open(`https://api.whatsapp.com/send?phone=971547793063&text=${msg}`, '_blank');
+  closeModal();
+});
+</script>
+</body>
+</html>
