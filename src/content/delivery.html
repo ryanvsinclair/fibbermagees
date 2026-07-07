@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Order Delivery | Fibber Magee's</title>
 <meta name="description" content="Order Fibber Magee's pub grub for delivery. Available 8am to 9pm. Checkout in seconds over WhatsApp.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -132,8 +135,9 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
 /* ---------- Delivery hero / location gate ---------- */
 .delivery-hero{
   min-height:100svh;height:100svh;
+  min-height:100dvh;height:100dvh;
   display:flex;align-items:center;justify-content:center;text-align:center;
-  padding:clamp(100px,14vh,160px) clamp(20px,5vw,48px) clamp(48px,6vw,64px);
+  padding:max(96px, calc(env(safe-area-inset-top) + 72px)) clamp(20px,5vw,48px) max(32px, env(safe-area-inset-bottom));
   background:var(--green-950);
   position:relative;
 }
@@ -443,10 +447,6 @@ footer .fine{font-size:.8rem;font-weight:300}
   @media (prefers-reduced-motion:reduce){
     .hero-content{transition:none}
     nav{transition:none}
-  }
-  .delivery-hero:not(.is-confirm){
-    min-height:100svh;height:100svh;
-    min-height:100dvh;height:100dvh;
   }
 }
 </style>

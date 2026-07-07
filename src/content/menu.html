@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Menu &amp; Deals | Fibber Magee's</title>
 <meta name="description" content="Fibber Magee's SZR menu and weekly deals. Pub grub, award winning Guinness, and a different deal every day of the week.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -134,10 +137,12 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
 
 /* ---------- Today's deal hero ---------- */
 .deal-hero{
-  min-height:88svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  min-height:100svh;height:100svh;
+  min-height:100dvh;height:100dvh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
   color:var(--cream);position:relative;overflow:hidden;
   background:var(--green-950);
-  padding:160px 24px 90px;
+  padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(32px, env(safe-area-inset-bottom));
 }
 .deal-hero-media{position:absolute;inset:0;z-index:0;background:#000}
 .deal-hero-bg{
@@ -450,11 +455,6 @@ footer .fine{font-size:.8rem;font-weight:300}
   @media (prefers-reduced-motion:reduce){
     .hero-content{transition:none}
     nav{transition:none}
-  }
-  .deal-hero{
-    min-height:100svh;height:100svh;
-    min-height:100dvh;height:100dvh;
-    padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(32px, env(safe-area-inset-bottom));
   }
 }
 </style>
