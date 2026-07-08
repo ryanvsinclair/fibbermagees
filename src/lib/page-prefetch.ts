@@ -21,7 +21,6 @@ const PAGE_PREFETCH_SCRIPT = `<script>
   };
 
   const prefetched = new Set();
-  const videoPool = (window.__fibberPrefetchVideos ||= []);
 
   const shouldPrefetch = () => {
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
@@ -31,45 +30,41 @@ const PAGE_PREFETCH_SCRIPT = `<script>
   };
 
   const markDone = key => {
-    try {
-      sessionStorage.setItem(key, "1");
-    } catch {}
+    try { sessionStorage.setItem(key, "1"); } catch {}
   };
 
   const wasDone = key => {
-    try {
-      return sessionStorage.getItem(key) === "1";
-    } catch {
-      return false;
-    }
+    try { return sessionStorage.getItem(key) === "1"; } catch { return false; }
   };
 
-  const prefetchAsset = (url, as) => {
-    if (!url || prefetched.has(url)) return;
+  const prefetchAsset = url => {
+    if (!url || prefetched.has(url)) return Promise.resolve();
     prefetched.add(url);
 
     if (/\\.(mp4|webm)(\\?|$)/i.test(url)) {
-      const video = document.createElement("video");
-      video.preload = "auto";
-      video.muted = true;
-      video.playsInline = true;
-      video.src = url;
-      video.load();
-      videoPool.push(video);
-      return;
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "video";
+      link.href = url;
+      document.head.appendChild(link);
+      return Promise.resolve();
     }
 
-    const link = document.createElement("link");
-    link.rel = "prefetch";
-    link.href = url;
-    link.as = as || (/\\.(png|jpe?g|webp|gif|svg)(\\?|$)/i.test(url) ? "image" : "fetch");
-    document.head.appendChild(link);
+    return new Promise(resolve => {
+      const link = document.createElement("link");
+      link.rel = "prefetch";
+      link.href = url;
+      link.as = /\\.(png|jpe?g|webp|gif|svg)(\\?|$)/i.test(url) ? "image" : "fetch";
+      link.onload = link.onerror = () => resolve();
+      document.head.appendChild(link);
+      setTimeout(resolve, 4000);
+    });
   };
 
   const prefetchRoute = route => {
     if (wasDone("fibber:route:" + route)) return Promise.resolve();
     return fetch(route, { credentials: "same-origin", priority: "low" })
-      .then(() => markDone("fibber:route:" + route))
+      .then(res => { if (res.ok) markDone("fibber:route:" + route); })
       .catch(() => {});
   };
 
@@ -85,26 +80,29 @@ const PAGE_PREFETCH_SCRIPT = `<script>
     return PAGE_ASSETS[route] || [];
   };
 
-  const prefetchOtherPages = () => {
+  const prefetchOtherPages = async () => {
     if (!shouldPrefetch() || wasDone("fibber:prefetch-complete")) return;
 
     const current = location.pathname.replace(/\\/$/, "") || "/";
     const others = ROUTES.filter(route => route !== current);
+    const tasks = [];
 
     others.forEach(route => {
-      prefetchRoute(route);
-      assetsForRoute(route).forEach(url => prefetchAsset(url));
+      tasks.push(prefetchRoute(route));
+      assetsForRoute(route).forEach(url => tasks.push(prefetchAsset(url)));
     });
 
+    await Promise.allSettled(tasks);
     markDone("fibber:warm");
     markDone("fibber:prefetch-complete");
   };
 
   const startPrefetch = () => {
+    const run = () => { prefetchOtherPages().catch(() => {}); };
     if ("requestIdleCallback" in window) {
-      requestIdleCallback(prefetchOtherPages, { timeout: 5000 });
+      requestIdleCallback(run, { timeout: 4000 });
     } else {
-      setTimeout(prefetchOtherPages, 1800);
+      setTimeout(run, 1000);
     }
   };
 

@@ -144,7 +144,7 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
   display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
   position:relative;overflow:hidden;color:var(--cream);
   background:var(--green-950);
-  padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(32px, env(safe-area-inset-bottom));
+  padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(72px, calc(env(safe-area-inset-bottom) + 52px));
 }
 .hero-video-wrap{
   position:absolute;inset:0;z-index:0;overflow:hidden;
@@ -171,7 +171,6 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
 .hero-enter .hero-scroll{
   opacity:0;
 }
-.hero-enter .hero-scroll{transform:translateX(-50%)}
 .hero-enter .hero-kicker.is-visible,
 .hero-enter h1.is-visible,
 .hero-enter p.is-visible,
@@ -179,15 +178,11 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
   animation:heroRiseIn .5s var(--ease) forwards, heroOpacityIn 1.4s ease forwards;
 }
 .hero-enter .hero-scroll.is-visible{
-  animation:heroRiseInScroll .5s var(--ease) forwards, heroOpacityIn 1.4s ease forwards, bob 2.4s ease-in-out .5s infinite;
+  animation:heroRiseIn .5s var(--ease) forwards, heroOpacityIn 1.4s ease forwards, bob 2.4s ease-in-out .5s infinite;
 }
 @keyframes heroRiseIn{
   from{transform:translateY(14px)}
   to{transform:translateY(0)}
-}
-@keyframes heroRiseInScroll{
-  from{transform:translateX(-50%) translateY(14px)}
-  to{transform:translateX(-50%) translateY(0)}
 }
 @keyframes heroOpacityIn{
   from{opacity:0}
@@ -201,16 +196,25 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
   .hero-enter .hero-scroll.is-visible{
     animation:none;opacity:1;transform:translateY(0);
   }
-  .hero-enter .hero-scroll.is-visible{transform:translateX(-50%)}
 }
 .hero-kicker{display:inline-flex;align-items:center;gap:14px;font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-light);margin-bottom:22px}
 .hero-kicker::before,.hero-kicker::after{content:"";width:44px;height:1px;background:var(--gold)}
 .hero h1{font-size:clamp(2.6rem,7vw,5.2rem);font-weight:700;line-height:1.04;max-width:14ch;margin:0 auto 18px}
 .hero h1 em{font-style:italic;color:var(--gold-light)}
 .hero p{max-width:52ch;margin:0 auto 38px;font-weight:300;font-size:clamp(1rem,1.6vw,1.15rem);color:rgba(246,241,229,.85)}
-.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
-.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:rgba(246,241,229,.6);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;animation:bob 2.4s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:clamp(12px,2vh,24px)}
+.hero-scroll-wrap{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  display:flex;justify-content:center;align-items:flex-end;
+  padding-bottom:max(24px, env(safe-area-inset-bottom));
+  pointer-events:none;
+}
+.hero-scroll{
+  display:inline-block;
+  color:rgba(246,241,229,.6);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
+  animation:bob 2.4s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
 
 /* ---------- Sections ---------- */
 section{padding:clamp(70px,9vw,120px) clamp(20px,6vw,72px)}
@@ -466,7 +470,8 @@ footer .fine a{color:var(--gold-light)}
     margin:0;padding-top:clamp(96px,14vh,140px);
     display:flex;flex-direction:column;justify-content:center;
   }
-  body.nav-open .site-hero .hero-content{
+  body.nav-open .site-hero .hero-content,
+  body.nav-open .site-hero .hero-scroll-wrap{
     opacity:0;pointer-events:none;
   }
   body.nav-open .site-hero .hero-overlay,
@@ -487,12 +492,17 @@ footer .fine a{color:var(--gold-light)}
     transition:opacity .34s var(--ease) .18s, visibility 0s;
   }
   .nav-toggle{display:block;background:none;border:none;color:var(--cream);cursor:pointer;z-index:110;padding:4px}
-  .hero-content{transition:opacity .24s var(--ease)}
+  .brand img.logo{height:72px}
+  header.scrolled .brand img.logo{height:54px}
+  .logo-tagline{font-size:.52rem;letter-spacing:.24em}
+  .hero-content,
+  .hero-scroll-wrap{transition:opacity .24s var(--ease)}
   body.nav-open header,
   header.mobile-nav-open{transform:none!important}
   nav a{font-size:1.05rem}
   @media (prefers-reduced-motion:reduce){
-    .hero-content{transition:none}
+    .hero-content,
+    .hero-scroll-wrap{transition:none}
     nav{transition:none}
   }
 }
@@ -504,7 +514,7 @@ footer .fine a{color:var(--gold-light)}
 <header id="header">
   <a class="brand" href="#top" aria-label="Fibber Magee's home">
     <img class="logo" src="/logo.png" alt="Fibber Magee's">
-    <span class="logo-tagline">Est. 1996 • Dubai</span>
+    <span class="logo-tagline">Est. 1996</span>
   </a>
   <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
     <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -541,14 +551,16 @@ footer .fine a{color:var(--gold-light)}
     </div>
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="hero-content">
-    <span class="hero-kicker" id="heroKicker">Est. 1996 · Sheikh Zayed Road</span>
+    <span class="hero-kicker" id="heroKicker">Est. 1996</span>
     <h1 id="heroTitle">Dubai's Best <em>Kept Secret</em></h1>
     <p id="heroSub">Honest pub grub, live bands and trad sessions, and a warm Irish welcome in the heart of Dubai. Come for a pint, stay for the craic.</p>
     <div class="hero-ctas" id="heroCtas">
       <a class="btn btn-gold" href="/menu">Dine-In Menu</a>
       <a class="btn btn-outline" href="/delivery">Food Delivery</a>
     </div>
-    <span class="hero-scroll" id="heroScroll">Scroll</span>
+    </div>
+    <div class="hero-scroll-wrap">
+      <span class="hero-scroll" id="heroScroll">Scroll</span>
     </div>
   </section>
 
@@ -803,7 +815,12 @@ footer .fine a{color:var(--gold-light)}
   loopA.addEventListener('ended', () => { if (loopMode && showing === loopA && !crossfading) crossfadeLoop(); });
   loopB.addEventListener('ended', () => { if (loopMode && showing === loopB && !crossfading) crossfadeLoop(); });
 
-  safePlay(intro);
+  const startIntro = () => safePlay(intro);
+  if (document.documentElement.classList.contains('is-page-loading')) {
+    document.addEventListener('fibber:page-ready', startIntro, { once: true });
+  } else {
+    startIntro();
+  }
 })();
 
 // hero content: staggered time-based reveal

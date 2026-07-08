@@ -142,7 +142,7 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
   display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
   color:var(--cream);position:relative;overflow:hidden;
   background:var(--green-950);
-  padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(32px, env(safe-area-inset-bottom));
+  padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(72px, calc(env(safe-area-inset-bottom) + 52px));
 }
 .deal-hero-media{position:absolute;inset:0;z-index:0;background:#000}
 .deal-hero-bg{
@@ -195,10 +195,44 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
 .deal-meta{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;margin-bottom:36px}
 .deal-meta span{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:#fff}
 .deal-meta svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round}
-.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:clamp(12px,2vh,24px)}
+.deal-hero-jump-wrap{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  display:flex;justify-content:center;align-items:flex-end;
+  padding-bottom:max(24px, env(safe-area-inset-bottom));
+}
+.deal-hero-jump{
+  display:flex;align-items:center;justify-content:center;
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(8,31,22,.15);border:1px solid rgba(246,241,229,.32);
+  color:rgba(246,241,229,.88);text-decoration:none;
+  animation:dealHeroJumpBob 2.4s ease-in-out infinite;
+  transition:background .25s var(--ease),border-color .25s var(--ease),color .25s var(--ease);
+}
+.deal-hero-jump:hover{
+  background:rgba(8,31,22,.28);border-color:rgba(201,162,75,.45);color:#fff;
+}
+.deal-hero-jump-inner{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;line-height:1;
+}
+.deal-hero-jump-label{
+  font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  line-height:1;padding-left:.18em;
+}
+.deal-hero-jump-chevron{
+  width:9px;height:9px;flex:none;
+  border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg);
+}
+@keyframes dealHeroJumpBob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+@media (prefers-reduced-motion:reduce){
+  .deal-hero-jump{animation:none}
+}
 
 /* ---------- Sections ---------- */
 section{padding:clamp(64px,8vw,110px) clamp(20px,6vw,72px)}
+#menu{scroll-margin-top:96px}
 .section-head{text-align:center;max-width:680px;margin:0 auto clamp(40px,5vw,64px)}
 .kicker{font-size:.75rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:14px}
 .section-head h2{font-size:clamp(2rem,4.4vw,3rem);font-weight:600;line-height:1.12}
@@ -423,7 +457,11 @@ footer .fine{font-size:.8rem;font-weight:300}
     box-shadow:none!important;
   }
   .nav-toggle{display:block;background:none;border:none;color:var(--cream);cursor:pointer;z-index:110;padding:4px}
-  .hero-content{transition:opacity .24s var(--ease)}
+  .brand img.logo{height:72px}
+  header.scrolled .brand img.logo{height:54px}
+  .logo-tagline{font-size:.52rem;letter-spacing:.24em}
+  .hero-content,
+  .deal-hero-jump-wrap{transition:opacity .24s var(--ease)}
   body.nav-open{overflow:hidden;overscroll-behavior:none}
   body.nav-open header{z-index:106}
   body.nav-open .site-hero{
@@ -432,7 +470,8 @@ footer .fine{font-size:.8rem;font-weight:300}
     margin:0;padding-top:clamp(96px,14vh,140px);
     display:flex;flex-direction:column;justify-content:center;
   }
-  body.nav-open .site-hero .hero-content{
+  body.nav-open .site-hero .hero-content,
+  body.nav-open .site-hero .deal-hero-jump-wrap{
     opacity:0;pointer-events:none;
   }
   body.nav-open .site-hero .hero-overlay,
@@ -456,9 +495,30 @@ footer .fine{font-size:.8rem;font-weight:300}
   header.mobile-nav-open{transform:none!important}
   nav a{font-size:1.05rem}
   @media (prefers-reduced-motion:reduce){
-    .hero-content{transition:none}
+    .hero-content,
+    .deal-hero-jump-wrap{transition:none}
     nav{transition:none}
   }
+  .deal-hero{
+    padding-top:max(118px, calc(env(safe-area-inset-top) + 98px));
+  }
+  .deal-hero .deal-badge{
+    font-size:.68rem;letter-spacing:.26em;
+    padding:7px 18px;margin-bottom:18px;
+  }
+  .deal-hero h1{font-size:clamp(2rem,8.2vw,2.75rem);margin-bottom:10px}
+  .deal-hero .deal-price{font-size:clamp(1.15rem,4.2vw,1.45rem);margin-bottom:10px}
+  .deal-hero p{font-size:clamp(.9rem,3.6vw,.98rem);margin-bottom:20px;max-width:34ch}
+  .deal-hero .deal-meta{gap:14px;margin-bottom:24px}
+  .deal-hero .deal-meta span{font-size:.72rem;letter-spacing:.12em}
+  .deal-hero .deal-meta svg{width:14px;height:14px}
+  .deal-hero .hero-ctas{gap:12px}
+  .deal-hero .hero-ctas .btn{padding:11px 20px;font-size:.78rem}
+  .deal-hero-jump{width:64px;height:64px}
+  .deal-hero-jump-inner{gap:3px}
+  .deal-hero-jump-label{font-size:.64rem;padding-left:.16em;letter-spacing:.16em}
+  .deal-hero-jump-chevron{width:8px;height:8px}
+  #menu{scroll-margin-top:88px}
 }
 </style>
 </head>
@@ -468,7 +528,7 @@ footer .fine{font-size:.8rem;font-weight:300}
 <header id="header">
   <a class="brand" href="/" aria-label="Fibber Magee's home">
     <img class="logo" src="/logo.png" alt="Fibber Magee's">
-    <span class="logo-tagline">Est. 1996 • Dubai</span>
+    <span class="logo-tagline">Est. 1996</span>
   </a>
   <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
     <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -510,6 +570,14 @@ footer .fine{font-size:.8rem;font-weight:300}
       <a class="btn btn-beer js-book" href="#book">Book a Table</a>
       <a class="btn btn-outline" href="#deals">All Weekly Deals</a>
     </div>
+    </div>
+    <div class="deal-hero-jump-wrap">
+      <a class="deal-hero-jump" href="#menu" aria-label="Jump to full menu">
+        <span class="deal-hero-jump-inner">
+          <span class="deal-hero-jump-label">Menu</span>
+          <span class="deal-hero-jump-chevron" aria-hidden="true"></span>
+        </span>
+      </a>
     </div>
   </section>
 
@@ -968,8 +1036,9 @@ if (!usesVideo) {
   const onVideoReady = () => {
     showHeroVideo();
     heroVideo.classList.add('is-active');
-    safePlay(heroVideo);
   };
+
+  const startMenuVideo = () => safePlay(heroVideo);
 
   const onVideoError = () => {
     heroVideo.removeAttribute('src');
@@ -1054,6 +1123,12 @@ if (!usesVideo) {
       heroVideo.playbackRate = 1;
       onVideoReady();
     }
+  }
+
+  if (document.documentElement.classList.contains('is-page-loading')) {
+    document.addEventListener('fibber:page-ready', startMenuVideo, { once: true });
+  } else {
+    startMenuVideo();
   }
 }
 // expand today's strip by default and mark it

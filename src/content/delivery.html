@@ -412,6 +412,9 @@ footer .fine{font-size:.8rem;font-weight:300}
     box-shadow:none!important;
   }
   .nav-toggle{display:block;background:none;border:none;color:var(--cream);cursor:pointer;z-index:110;padding:4px}
+  .brand img.logo{height:72px}
+  header.scrolled .brand img.logo{height:54px}
+  .logo-tagline{font-size:.52rem;letter-spacing:.24em}
   .hero-content{transition:opacity .24s var(--ease)}
   body.nav-open{overflow:hidden;overscroll-behavior:none}
   body.nav-open header{z-index:106}
@@ -457,7 +460,7 @@ footer .fine{font-size:.8rem;font-weight:300}
 <header id="header">
   <a class="brand" href="/" aria-label="Fibber Magee's home">
     <img class="logo" src="/logo.png" alt="Fibber Magee's">
-    <span class="logo-tagline">Est. 1996 • Dubai</span>
+    <span class="logo-tagline">Est. 1996</span>
   </a>
   <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
     <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -651,7 +654,12 @@ footer .fine{font-size:.8rem;font-weight:300}
   videoA.addEventListener('ended', () => { if (showing === videoA && !crossfading) crossfadeLoop(); });
   videoB.addEventListener('ended', () => { if (showing === videoB && !crossfading) crossfadeLoop(); });
 
-  safePlay(videoA);
+  const startDeliveryVideo = () => safePlay(videoA);
+  if (document.documentElement.classList.contains('is-page-loading')) {
+    document.addEventListener('fibber:page-ready', startDeliveryVideo, { once: true });
+  } else {
+    startDeliveryVideo();
+  }
 })();
 const BRANCHES = {
   szr: 'Downtown SZR (Saeed Tower 1)',

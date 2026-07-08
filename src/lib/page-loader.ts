@@ -1,6 +1,9 @@
 const PAGE_LOADER_CRITICAL = `<style id="page-loader-critical">
 html.is-page-loading{background:#081f16}
-html.is-page-loading body>*:not(.page-loader){visibility:hidden}
+html.is-page-loading body>*:not(.page-loader){
+  opacity:0;pointer-events:none;
+}
+html.is-page-revisit .page-loader{display:none!important}
 html.is-page-loading .hero-enter .hero-kicker,
 html.is-page-loading .hero-enter h1,
 html.is-page-loading .hero-enter p,
@@ -10,7 +13,7 @@ html.is-page-loading .hero-enter .hero-scroll{
 }
 .page-loader{
   position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;
-  background:#081f16;transition:opacity .45s cubic-bezier(.22,.9,.3,1),visibility .45s;
+  background:#081f16;transition:opacity .35s cubic-bezier(.22,.9,.3,1),visibility .35s;
 }
 .page-loader.is-done{opacity:0;visibility:hidden;pointer-events:none}
 .page-loader-inner{position:relative;width:44px;height:44px}
@@ -23,7 +26,18 @@ html.is-page-loading .hero-enter .hero-scroll{
   .page-loader-ring{animation:none}
 }
 </style>
-<script>document.documentElement.classList.add("is-page-loading");</script>`;
+<script>
+(function(){
+  var path=location.pathname.replace(/\\/$/,"")||"/";
+  try{
+    if(sessionStorage.getItem("fibber:visited:"+path)==="1"){
+      document.documentElement.classList.add("is-page-revisit");
+      return;
+    }
+  }catch(e){}
+  document.documentElement.classList.add("is-page-loading");
+})();
+</script>`;
 
 const PAGE_LOADER_MARKUP = `<div class="page-loader" id="pageLoader" role="status" aria-live="polite" aria-busy="true" aria-label="Loading">
   <div class="page-loader-inner">
@@ -33,16 +47,50 @@ const PAGE_LOADER_MARKUP = `<div class="page-loader" id="pageLoader" role="statu
 
 const PAGE_LOADER_SCRIPT = `<script>
 (() => {
-  const MAX_WAIT = 12000;
-  const MIN_SHOW = (() => {
-    try {
-      return sessionStorage.getItem("fibber:warm") === "1" ? 0 : 500;
-    } catch {
-      return 500;
-    }
-  })();
-  const started = performance.now();
+  const path = location.pathname.replace(/\\/$/, "") || "/";
   const loader = document.getElementById("pageLoader");
+  const started = performance.now();
+  let revealed = false;
+
+  const storageGet = key => {
+    try { return sessionStorage.getItem(key); } catch { return null; }
+  };
+
+  const storageSet = (key, value) => {
+    try { sessionStorage.setItem(key, value); } catch {}
+  };
+
+  const finish = () => {
+    if (revealed) return;
+    revealed = true;
+    document.documentElement.classList.remove("is-page-loading");
+    document.documentElement.classList.remove("is-page-revisit");
+    loader?.classList.add("is-done");
+    loader?.setAttribute("aria-busy", "false");
+    storageSet("fibber:visited:" + path, "1");
+    document.dispatchEvent(new CustomEvent("fibber:page-ready"));
+  };
+
+  window.addEventListener("pageshow", event => {
+    if (event.persisted || document.documentElement.classList.contains("is-page-loading")) {
+      finish();
+    }
+  });
+
+  if (!document.documentElement.classList.contains("is-page-loading")) {
+    finish();
+    return;
+  }
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      regs.forEach(reg => reg.unregister());
+    }).catch(() => {});
+  }
+
+  const isWarm = () => storageGet("fibber:warm") === "1";
+  const maxWait = isWarm() ? 3500 : 9000;
+  const minShow = isWarm() ? 0 : 350;
 
   const preloadImage = src => new Promise(resolve => {
     if (!src) return resolve();
@@ -50,79 +98,81 @@ const PAGE_LOADER_SCRIPT = `<script>
     img.decoding = "async";
     img.onload = img.onerror = () => resolve();
     img.src = src;
+    setTimeout(resolve, maxWait);
   });
 
-  const extractUrl = value => {
-    if (!value || value === "none") return "";
-    const match = String(value).match(/url\\(["']?([^"')]+)/);
-    return match ? match[1] : "";
+  const extractUrls = value => {
+    if (!value || value === "none") return [];
+    return [...String(value).matchAll(/url\\(["']?([^"')]+)/g)].map(match => match[1]);
+  };
+
+  const videoSrc = video => {
+    if (!video) return "";
+    return video.currentSrc || video.src || video.querySelector("source[src]")?.src || "";
+  };
+
+  const pickHeroVideo = hero => {
+    const selectors = [
+      "#heroIntro",
+      "#deliveryVideoA",
+      "#dealHeroVideo",
+      "video.is-active",
+      "video[autoplay]",
+      "video",
+    ];
+    for (const selector of selectors) {
+      for (const video of hero.querySelectorAll(selector)) {
+        if (videoSrc(video)) return video;
+      }
+    }
+    return null;
   };
 
   const waitVideo = video => new Promise(resolve => {
-    if (!video) return resolve();
+    if (!video || !videoSrc(video)) return resolve();
     const done = () => resolve();
     if (video.readyState >= 2) return done();
-    video.addEventListener("canplaythrough", done, { once: true });
     video.addEventListener("loadeddata", done, { once: true });
+    video.addEventListener("canplay", done, { once: true });
     video.addEventListener("error", done, { once: true });
-    setTimeout(done, MAX_WAIT);
+    setTimeout(done, maxWait);
   });
 
-  const waitHeroMedia = () => {
+  const waitHeroMedia = async () => {
     const hero = document.querySelector(".site-hero");
-    if (!hero) return Promise.resolve();
+    if (!hero) return;
 
     const tasks = [];
+    const urls = new Set();
     const bg = hero.querySelector(".deal-hero-bg");
-    if (bg) tasks.push(preloadImage(extractUrl(getComputedStyle(bg).backgroundImage)));
-    tasks.push(preloadImage(extractUrl(getComputedStyle(hero).backgroundImage)));
+    extractUrls(bg ? getComputedStyle(bg).backgroundImage : "").forEach(url => urls.add(url));
+    extractUrls(getComputedStyle(hero).backgroundImage).forEach(url => urls.add(url));
+    urls.forEach(url => tasks.push(preloadImage(url)));
 
-    const primary =
-      hero.querySelector("#heroIntro, #deliveryVideoA, #dealHeroVideo, video.is-active, video[autoplay]") ||
-      hero.querySelector("video");
+    const primary = pickHeroVideo(hero);
+    if (primary) tasks.push(waitVideo(primary));
 
-    if (primary) {
-      tasks.push(new Promise(resolve => {
-        const finish = () => resolve();
-        const start = () => waitVideo(primary).then(finish);
-        if (primary.currentSrc || primary.src || primary.querySelector("source[src]")) start();
-        else {
-          primary.addEventListener("loadeddata", start, { once: true });
-          primary.addEventListener("error", finish, { once: true });
-          setTimeout(finish, MAX_WAIT);
-        }
-      }));
-    }
-
-    return Promise.all(tasks);
+    await Promise.all(tasks);
   };
+
+  const waitFonts = () => Promise.race([
+    document.fonts?.ready ?? Promise.resolve(),
+    new Promise(resolve => setTimeout(resolve, 1500)),
+  ]);
 
   const reveal = () => {
     const elapsed = performance.now() - started;
-    const warm = (() => {
-      try {
-        return sessionStorage.getItem("fibber:warm") === "1";
-      } catch {
-        return false;
-      }
-    })();
-    const instant = warm && elapsed < 150;
-    const wait = instant ? 0 : Math.max(0, MIN_SHOW - elapsed);
-    const finish = () => {
-      document.documentElement.classList.remove("is-page-loading");
-      loader?.classList.add("is-done");
-      loader?.setAttribute("aria-busy", "false");
-      document.dispatchEvent(new CustomEvent("fibber:page-ready"));
-    };
+    const wait = Math.max(0, minShow - elapsed);
     if (wait === 0) finish();
     else setTimeout(finish, wait);
   };
 
-  Promise.all([
-    waitHeroMedia(),
-    document.fonts?.ready ?? Promise.resolve(),
+  Promise.race([
+    Promise.all([waitHeroMedia(), waitFonts()]),
+    new Promise(resolve => setTimeout(resolve, maxWait)),
   ]).then(reveal).catch(reveal);
-  setTimeout(reveal, MAX_WAIT);
+
+  setTimeout(finish, maxWait + minShow + 250);
 })();
 </script>`;
 
