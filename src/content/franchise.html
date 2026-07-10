@@ -8,10 +8,13 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="/icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/fraunces-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/fraunces-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:300 600;font-display:swap;src:url('/fonts/outfit-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:300 600;font-display:swap;src:url('/fonts/outfit-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 :root{
   --green-950:#081f16;
   --green-900:#0d2b1f;
@@ -143,7 +146,7 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
   color:var(--cream);text-align:center;position:relative;
   background:
     linear-gradient(180deg,rgba(8,31,22,.4) 0%,rgba(8,31,22,.4) 100%),
-    url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fibbers-magee-inside.jpg?fit=800%2C600&ssl=1') center/cover no-repeat var(--green-950);
+    url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fibbers-magee-inside.jpg?fit=800%2C600&quality=75&ssl=1') center/cover no-repeat var(--green-950);
   padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(32px, env(safe-area-inset-bottom));
 }
 .page-hero::after{
@@ -335,7 +338,7 @@ footer .fine{font-size:.8rem;font-weight:300}
 <div class="nav-drawer-hit" id="navDrawerHit" aria-hidden="true"></div>
 <header id="header">
   <a class="brand" href="/" aria-label="Fibber Magee's home">
-    <img class="logo" src="/logo.png" alt="Fibber Magee's">
+    <img class="logo" src="/logo.png" alt="Fibber Magee's" width="340" height="193" fetchpriority="high">
     <span class="logo-tagline">Est. 1996</span>
   </a>
   <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
@@ -380,14 +383,14 @@ footer .fine{font-size:.8rem;font-weight:300}
           <li>Positive <strong>social impact</strong> in the UAE &amp; UK through charitable contributions</li>
         </ul>
       </div>
-      <div class="ph reveal d1"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fibbers-magee-inside.jpg?fit=800%2C600&ssl=1" alt="Inside Fibber Magee's" loading="lazy"></div>
+      <div class="ph reveal d1"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fibbers-magee-inside.jpg?fit=800%2C600&quality=75&ssl=1" alt="Inside Fibber Magee's" loading="lazy"></div>
     </div>
   </section>
 
   <!-- OPENING DOORS 2026: image + text (as on the live page) -->
   <section style="padding-top:0">
     <div class="split">
-      <div class="ph reveal"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fm-inside-pic1.jpg?fit=800%2C600&ssl=1" alt="Fibber Magee's bar" loading="lazy"></div>
+      <div class="ph reveal"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/fm-inside-pic1.jpg?fit=800%2C600&quality=75&ssl=1" alt="Fibber Magee's bar" loading="lazy"></div>
       <div class="reveal d1">
         <span class="kicker">The Opportunity</span>
         <h2>Opening Doors to Franchisees in 2026</h2>
@@ -415,7 +418,7 @@ footer .fine{font-size:.8rem;font-weight:300}
         </ul>
         <a class="btn btn-gold" href="mailto:info@fibbersdubai.com">Email Us Now</a>
       </div>
-      <div class="ph portrait reveal d1"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/franchisor-.jpg?fit=800%2C1068&ssl=1" alt="The Fibber Magee's franchisor" loading="lazy"></div>
+      <div class="ph portrait reveal d1"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/franchisor-.jpg?fit=800%2C1068&quality=75&ssl=1" alt="The Fibber Magee's franchisor" loading="lazy"></div>
     </div>
   </section>
 
@@ -453,7 +456,7 @@ footer .fine{font-size:.8rem;font-weight:300}
 
 <footer>
   <a class="brand" href="/">
-    <img class="logo" src="/logo.png" alt="Fibber Magee's">
+    <img class="logo" src="/logo.png" alt="Fibber Magee's" width="340" height="193" loading="lazy">
     <span class="logo-tagline">Est. 1996 • Dubai</span>
   </a>
   <nav>

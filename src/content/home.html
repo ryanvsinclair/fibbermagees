@@ -8,10 +8,13 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="/icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/fraunces-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/fraunces-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:300 600;font-display:swap;src:url('/fonts/outfit-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:300 600;font-display:swap;src:url('/fonts/outfit-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 :root{
   --green-950:#081f16;
   --green-900:#0d2b1f;
@@ -513,7 +516,7 @@ footer .fine a{color:var(--gold-light)}
 <div class="nav-drawer-hit" id="navDrawerHit" aria-hidden="true"></div>
 <header id="header">
   <a class="brand" href="#top" aria-label="Fibber Magee's home">
-    <img class="logo" src="/logo.png" alt="Fibber Magee's">
+    <img class="logo" src="/logo.png" alt="Fibber Magee's" width="340" height="193" fetchpriority="high">
     <span class="logo-tagline">Est. 1996</span>
   </a>
   <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
@@ -569,11 +572,11 @@ footer .fine a{color:var(--gold-light)}
     <div class="manifesto reveal">
       <div class="line">
         Honest <em>grub</em>
-        <span class="chip"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/01/food-.jpg?fit=1024%2C630&ssl=1" alt="Pub grub" loading="lazy"></span>
+        <span class="chip"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/01/food-.jpg?fit=350%2C240&ssl=1" alt="Pub grub" loading="lazy"></span>
         live <em>trad</em>
-        <span class="chip"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/01/Musician.jpg?fit=1024%2C630&ssl=1" alt="Live music" loading="lazy"></span>
+        <span class="chip"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/01/Musician.jpg?fit=350%2C240&ssl=1" alt="Live music" loading="lazy"></span>
         &amp; proper <em>craic</em>
-        <span class="chip"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/01/fibbers-dubia.jpg?fit=1024%2C630&ssl=1" alt="The bar" loading="lazy"></span>
+        <span class="chip"><img src="https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/01/fibbers-dubia.jpg?fit=350%2C240&ssl=1" alt="The bar" loading="lazy"></span>
         since 1996.
       </div>
       <p class="sub">Hearty portions, trad sessions seven nights a week, and a welcome that turns strangers into regulars.</p>
@@ -589,7 +592,7 @@ footer .fine a{color:var(--gold-light)}
       <div class="rule"></div>
     </div>
     <div class="venue-strip-row reveal">
-      <article class="venue-strip expanded flagship" data-venue="szr" style="--strip-bg:url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/Fibbers-szr.jpg?fit=800%2C1071&ssl=1')">
+      <article class="venue-strip expanded flagship" data-venue="szr" style="--strip-bg:url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/Fibbers-szr.jpg?resize=800%2C560&quality=75&ssl=1')">
         <span class="venue-v">SZR</span>
         <span class="flagship-chip">Original</span>
         <div class="content">
@@ -603,7 +606,7 @@ footer .fine a{color:var(--gold-light)}
           <a class="btn btn-gold" href="https://maps.app.goo.gl/sf4Wg3bduynA9PKq9">Get Directions</a>
         </div>
       </article>
-      <article class="venue-strip" data-venue="barsha" style="--strip-bg:url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/The-Four-Province.jpg?fit=800%2C1071&ssl=1')">
+      <article class="venue-strip" data-venue="barsha" style="--strip-bg:url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/The-Four-Province.jpg?resize=800%2C560&quality=75&ssl=1')">
         <span class="venue-v">Barsha</span>
         <div class="content">
           <span class="tag">Barsha Heights</span>
@@ -616,7 +619,7 @@ footer .fine a{color:var(--gold-light)}
           <a class="btn btn-gold" href="https://maps.app.goo.gl/MnKd15Xzk5UVS7Xc9">Get Directions</a>
         </div>
       </article>
-      <article class="venue-strip" data-venue="manchester" style="--strip-bg:url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/Manchester.jpg?fit=800%2C1071&ssl=1')">
+      <article class="venue-strip" data-venue="manchester" style="--strip-bg:url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/Manchester.jpg?resize=800%2C560&quality=75&ssl=1')">
         <span class="venue-v">MCR</span>
         <div class="content">
           <span class="tag">United Kingdom</span>
@@ -629,7 +632,7 @@ footer .fine a{color:var(--gold-light)}
           <a class="btn btn-gold" href="https://maps.app.goo.gl/h2xW2v7pwgUuudcC9">Get Directions</a>
         </div>
       </article>
-      <article class="venue-strip" data-venue="sevens" style="--strip-bg:url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/The-Sevens.jpg?fit=800%2C1071&ssl=1')">
+      <article class="venue-strip" data-venue="sevens" style="--strip-bg:url('https://i0.wp.com/fibbersdubai.com/wp-content/uploads/2026/03/The-Sevens.jpg?resize=800%2C560&quality=75&ssl=1')">
         <span class="venue-v">Sevens</span>
         <div class="content">
           <span class="tag">Al Ain Road</span>
@@ -681,7 +684,7 @@ footer .fine a{color:var(--gold-light)}
 
 <footer>
   <a class="brand" href="#top">
-    <img class="logo" src="/logo.png" alt="Fibber Magee's">
+    <img class="logo" src="/logo.png" alt="Fibber Magee's" width="340" height="193" loading="lazy">
     <span class="logo-tagline">Est. 1996 • Dubai</span>
   </a>
   <nav>
