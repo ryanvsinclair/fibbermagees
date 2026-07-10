@@ -170,9 +170,7 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
   object-position:center 32%;
 }
 .deal-hero.has-video .deal-hero-bg{opacity:0}
-.deal-hero.has-video-pending .deal-hero-bg{opacity:0}
 .deal-hero.has-video-pending .deal-hero-video{opacity:0}
-.deal-hero.has-video-pending{background:var(--green-950)}
 .deal-hero-overlay{
   position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(8,31,22,.4) 0%,rgba(8,31,22,.4) 50%,rgba(8,31,22,.4) 100%);
@@ -615,7 +613,7 @@ footer .fine{font-size:.8rem;font-weight:300}
           <div class="time"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>8pm to 11pm</div>
         </div>
       </article>
-      <article class="strip" data-day="2" style="--strip-bg:url('/deal-tuesday.png')">
+      <article class="strip" data-day="2" style="--strip-bg:url('/deal-tuesday.jpg')">
         <span class="day-v">Tuesday</span>
         <span class="today-chip">Today</span>
         <div class="content">
@@ -985,7 +983,7 @@ const deals = {
      desc:"A traditional roast dinner with all the trimmings plus a house beverage. Available all day, because Sundays were made for roasts."},
   1:{title:'Monday <em>Madness</em>', price:'Unlimited house drinks, 170 AED pp', time:'8pm to 11pm', image:'/deal-monday.png',
      desc:"Unlimited house drinks including Prosecco and this week's signature cocktail, with live music. The finest way to fix a Monday."},
-  2:{title:'Ten AED <em>Steak Night</em>', price:'Ribeye steak, just 10 AED', time:'7pm to 12am', image:'/deal-tuesday.png',
+  2:{title:'Ten AED <em>Steak Night</em>', price:'Ribeye steak, just 10 AED', time:'7pm to 12am', image:'/deal-tuesday.jpg',
      video:'/deal-tuesday.mp4', loopVideo:'/deal-tuesday-loop.mp4',
      desc:"Our legendary deal. A ribeye steak with mashed potatoes for ten dirhams, every Tuesday. Just order any drink alongside it. Dine-in only."},
   3:{title:'Happy Hour <em>All Day</em>', price:'Drinks from 33 AED', time:'10am to 7pm', image:'/deal-wednesday.png',
@@ -1034,6 +1032,7 @@ document.getElementById('dealTime').textContent = d.time;
 if (!usesVideo) {
   showHeroImage();
 } else {
+  heroBg.style.backgroundImage = `url('${d.image}')`;
   hero.classList.add('has-video-pending');
 
   const onVideoReady = () => {

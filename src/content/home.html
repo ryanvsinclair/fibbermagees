@@ -146,7 +146,7 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
   min-height:100dvh;height:100dvh;
   display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
   position:relative;overflow:hidden;color:var(--cream);
-  background:var(--green-950);
+  background:url('/hero-poster.jpg') center/cover no-repeat var(--green-950);
   padding:max(96px, calc(env(safe-area-inset-top) + 72px)) 24px max(72px, calc(env(safe-area-inset-bottom) + 52px));
 }
 .hero-video-wrap{
@@ -542,13 +542,13 @@ footer .fine a{color:var(--gold-light)}
   <!-- HERO -->
   <section class="hero hero-enter site-hero" id="hero">
     <div class="hero-video-wrap" aria-hidden="true">
-      <video class="hero-video is-active" id="heroIntro" autoplay muted playsinline preload="auto">
+      <video class="hero-video is-active" id="heroIntro" autoplay muted playsinline preload="auto" poster="/hero-poster.jpg">
         <source src="/hero.mp4" type="video/mp4">
       </video>
-      <video class="hero-video" id="heroLoopA" muted playsinline preload="auto">
+      <video class="hero-video" id="heroLoopA" muted playsinline preload="none">
         <source src="/hero.mp4" type="video/mp4">
       </video>
-      <video class="hero-video" id="heroLoopB" muted playsinline preload="auto">
+      <video class="hero-video" id="heroLoopB" muted playsinline preload="none">
         <source src="/hero.mp4" type="video/mp4">
       </video>
     </div>
@@ -817,6 +817,8 @@ footer .fine a{color:var(--gold-light)}
   loopB.addEventListener('timeupdate', onLoopTimeupdate);
   loopA.addEventListener('ended', () => { if (loopMode && showing === loopA && !crossfading) crossfadeLoop(); });
   loopB.addEventListener('ended', () => { if (loopMode && showing === loopB && !crossfading) crossfadeLoop(); });
+
+  intro.addEventListener('playing', () => { loopA.load(); loopB.load(); }, { once: true });
 
   const startIntro = () => safePlay(intro);
   if (document.documentElement.classList.contains('is-page-loading')) {

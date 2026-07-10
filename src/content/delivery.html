@@ -141,7 +141,7 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
   min-height:100dvh;height:100dvh;
   display:flex;align-items:center;justify-content:center;text-align:center;
   padding:max(96px, calc(env(safe-area-inset-top) + 72px)) clamp(20px,5vw,48px) max(32px, env(safe-area-inset-bottom));
-  background:var(--green-950);
+  background:url('/delivery-poster.jpg') center/cover no-repeat var(--green-950);
   position:relative;
 }
 .delivery-hero.is-confirm{
@@ -485,10 +485,10 @@ footer .fine{font-size:.8rem;font-weight:300}
 <main>
   <section class="delivery-hero site-hero" id="locationGate">
     <div class="delivery-hero-video-wrap" aria-hidden="true">
-      <video class="delivery-hero-video is-active" id="deliveryVideoA" autoplay muted playsinline preload="auto">
+      <video class="delivery-hero-video is-active" id="deliveryVideoA" autoplay muted playsinline preload="auto" poster="/delivery-poster.jpg">
         <source src="/food_delivery_driver_riding_do_Kling_30__37082.mp4" type="video/mp4">
       </video>
-      <video class="delivery-hero-video" id="deliveryVideoB" muted playsinline preload="auto">
+      <video class="delivery-hero-video" id="deliveryVideoB" muted playsinline preload="none">
         <source src="/food_delivery_driver_riding_do_Kling_30__37082.mp4" type="video/mp4">
       </video>
     </div>
@@ -656,6 +656,8 @@ footer .fine{font-size:.8rem;font-weight:300}
   videoB.addEventListener('timeupdate', onTimeupdate);
   videoA.addEventListener('ended', () => { if (showing === videoA && !crossfading) crossfadeLoop(); });
   videoB.addEventListener('ended', () => { if (showing === videoB && !crossfading) crossfadeLoop(); });
+
+  videoA.addEventListener('playing', () => videoB.load(), { once: true });
 
   const startDeliveryVideo = () => safePlay(videoA);
   if (document.documentElement.classList.contains('is-page-loading')) {

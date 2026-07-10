@@ -89,7 +89,7 @@ const PAGE_LOADER_SCRIPT = `<script>
   }
 
   const isWarm = () => storageGet("fibber:warm") === "1";
-  const maxWait = isWarm() ? 3500 : 9000;
+  const maxWait = isWarm() ? 2000 : 5000;
   const minShow = isWarm() ? 0 : 350;
 
   const preloadImage = src => new Promise(resolve => {
@@ -106,38 +106,9 @@ const PAGE_LOADER_SCRIPT = `<script>
     return [...String(value).matchAll(/url\\(["']?([^"')]+)/g)].map(match => match[1]);
   };
 
-  const videoSrc = video => {
-    if (!video) return "";
-    return video.currentSrc || video.src || video.querySelector("source[src]")?.src || "";
-  };
-
-  const pickHeroVideo = hero => {
-    const selectors = [
-      "#heroIntro",
-      "#deliveryVideoA",
-      "#dealHeroVideo",
-      "video.is-active",
-      "video[autoplay]",
-      "video",
-    ];
-    for (const selector of selectors) {
-      for (const video of hero.querySelectorAll(selector)) {
-        if (videoSrc(video)) return video;
-      }
-    }
-    return null;
-  };
-
-  const waitVideo = video => new Promise(resolve => {
-    if (!video || !videoSrc(video)) return resolve();
-    const done = () => resolve();
-    if (video.readyState >= 2) return done();
-    video.addEventListener("loadeddata", done, { once: true });
-    video.addEventListener("canplay", done, { once: true });
-    video.addEventListener("error", done, { once: true });
-    setTimeout(done, maxWait);
-  });
-
+  // Reveal on the hero poster/background image only — never gate on video
+  // readiness. Videos fade in over their identical poster frame when they
+  // can play, so the page is visually complete as soon as the poster paints.
   const waitHeroMedia = async () => {
     const hero = document.querySelector(".site-hero");
     if (!hero) return;
@@ -147,10 +118,8 @@ const PAGE_LOADER_SCRIPT = `<script>
     const bg = hero.querySelector(".deal-hero-bg");
     extractUrls(bg ? getComputedStyle(bg).backgroundImage : "").forEach(url => urls.add(url));
     extractUrls(getComputedStyle(hero).backgroundImage).forEach(url => urls.add(url));
+    hero.querySelectorAll("video[poster]").forEach(video => urls.add(video.poster));
     urls.forEach(url => tasks.push(preloadImage(url)));
-
-    const primary = pickHeroVideo(hero);
-    if (primary) tasks.push(waitVideo(primary));
 
     await Promise.all(tasks);
   };
