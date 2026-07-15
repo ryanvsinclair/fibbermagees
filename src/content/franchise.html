@@ -15,6 +15,11 @@
 @font-face{font-family:'Fraunces';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/fraunces-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:'Outfit';font-style:normal;font-weight:300 600;font-display:swap;src:url('/fonts/outfit-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Outfit';font-style:normal;font-weight:300 600;font-display:swap;src:url('/fonts/outfit-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+.book-terms{margin-top:18px;padding-top:16px;border-top:1px solid rgba(28,26,21,.12);font-size:.78rem;color:var(--ink-soft);line-height:1.55}
+.book-terms p{margin:0 0 8px;font-weight:600;color:var(--ink)}
+.book-terms ul{margin:0;padding-left:18px;display:grid;gap:4px;list-style:disc}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,16px);z-index:100000;max-width:min(92vw,480px);background:var(--green-900);color:var(--cream);padding:16px 20px;border-radius:14px;border:1px solid rgba(201,162,75,.35);box-shadow:0 18px 44px -12px rgba(8,31,22,.55);font-size:.9rem;line-height:1.5;opacity:0;pointer-events:none;transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 :root{
   --green-950:#081f16;
   --green-900:#0d2b1f;
@@ -476,10 +481,10 @@ footer .fine{font-size:.8rem;font-weight:300}
     <button class="modal-close" id="bookClose" aria-label="Close">✕</button>
     <span class="kicker">Book a Table</span>
     <h2 id="bookTitle">Reserve your spot</h2>
-    <p class="sub">Fill in the details and we'll confirm your table over WhatsApp.</p>
+    <p class="sub">Fill in the details and we'll send a confirmation to your email.</p>
     <form id="bookForm">
       <div class="field"><label for="bkName">Name</label><input id="bkName" type="text" required placeholder="Your name"></div>
-      <div class="field"><label for="bkPhone">Phone</label><input id="bkPhone" type="tel" required placeholder="+971 ..."></div>
+      <div class="field"><label for="bkPhone">Phone</label><input id="bkPhone" type="tel" required placeholder="+971 ..."></div><div class="field full"><label for="bkEmail">Email</label><input id="bkEmail" type="email" required placeholder="you@email.com"></div>
       <div class="field full"><label for="bkVenue">Venue</label>
         <select id="bkVenue" required>
           <option value="Downtown">Downtown — Fibbers SZR, Sheikh Zayed Road</option>
@@ -490,8 +495,17 @@ footer .fine{font-size:.8rem;font-weight:300}
       <div class="field"><label for="bkTime">Time</label><input id="bkTime" type="time" required></div>
       <div class="field"><label for="bkGuests">Guests</label><input id="bkGuests" type="number" min="1" max="40" value="2" required></div>
       <div class="field"><label for="bkNotes">Requests</label><input id="bkNotes" type="text" placeholder="Optional"></div>
-      <button class="btn btn-whatsapp" type="submit">Send via WhatsApp</button>
+      <button class="btn btn-gold" type="submit">Confirm Booking</button>
       <p class="alt">Prefer to call? <a href="tel:+97143322400">+971 4 33 22 400</a></p>
+      <div class="book-terms">
+        <p>We will hold your table for a maximum of 20 minutes after the requested time.</p>
+        <ul>
+          <li>There is no dresscode at Fibbers. Wear whatever makes you happy.</li>
+          <li>Guests under 21 years old are legally permitted until 8pm.</li>
+          <li>If you are travelling by car, we will validate your parking. Please check your parking ticket on arrival for T&amp;Cs.</li>
+          <li>Most importantly, have a great time in Fibbers.</li>
+        </ul>
+      </div>
     </form>
   </div>
 </div>
@@ -566,12 +580,22 @@ document.getElementById('bookClose').addEventListener('click', closeModal);
 modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 document.getElementById('bkDate').min = new Date().toISOString().split('T')[0];
+const bookToast = document.createElement('div');
+bookToast.className = 'toast';
+bookToast.setAttribute('role', 'status');
+document.body.appendChild(bookToast);
+let bookToastTimer;
+const showBookToast = msg => {
+  bookToast.textContent = msg;
+  bookToast.classList.add('show');
+  clearTimeout(bookToastTimer);
+  bookToastTimer = setTimeout(() => bookToast.classList.remove('show'), 7000);
+};
 document.getElementById('bookForm').addEventListener('submit', e => {
   e.preventDefault();
-  const g = id => document.getElementById(id).value;
-  const msg = `Hi Fibber Magee's! I'd like to book a table.%0A%0AName: ${encodeURIComponent(g('bkName'))}%0APhone: ${encodeURIComponent(g('bkPhone'))}%0AVenue: ${encodeURIComponent(g('bkVenue'))}%0ADate: ${encodeURIComponent(g('bkDate'))}%0ATime: ${encodeURIComponent(g('bkTime'))}%0AGuests: ${encodeURIComponent(g('bkGuests'))}${g('bkNotes') ? '%0ARequests: ' + encodeURIComponent(g('bkNotes')) : ''}`;
-  window.open(`https://api.whatsapp.com/send?phone=971547793063&text=${msg}`, '_blank');
   closeModal();
+  e.target.reset();
+  showBookToast("Booking received! You'll get a confirmation message to your email shortly, where you can let us know about a cancellation or late arrival.");
 });
 </script>
 </body>
