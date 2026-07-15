@@ -161,6 +161,8 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
 }
 .delivery-hero-video.is-fading-in.is-visible{opacity:1}
 .delivery-hero-video.is-instant-off{opacity:0;z-index:0;transition:none}
+.delivery-hero.video-blocked .delivery-hero-video{opacity:0!important}
+video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none!important}
 .delivery-hero-overlay{
   position:absolute;inset:0;z-index:1;
   background:linear-gradient(180deg,rgba(8,31,22,.5) 0%,rgba(8,31,22,.62) 45%,rgba(8,31,22,.72) 100%);
@@ -659,7 +661,26 @@ footer .fine{font-size:.8rem;font-weight:300}
 
   videoA.addEventListener('playing', () => videoB.load(), { once: true });
 
-  const startDeliveryVideo = () => safePlay(videoA);
+  // Autoplay blocked (Low Power Mode etc.): hide videos so the poster
+  // shows instead of a paused video with a play button; retry on first
+  // tap and prime videoB since gesture permission is per-element.
+  const heroSection = document.getElementById('locationGate');
+  const onFirstTap = () => {
+    const attempt = videoA.play();
+    const prime = videoB.play();
+    if (prime) prime.then(() => videoB.pause()).catch(() => {});
+    if (attempt) attempt.then(() => {
+      heroSection.classList.remove('video-blocked');
+      window.removeEventListener('click', onFirstTap);
+    }).catch(() => {});
+  };
+  const startDeliveryVideo = () => {
+    const attempt = videoA.play();
+    if (attempt) attempt.catch(() => {
+      heroSection.classList.add('video-blocked');
+      window.addEventListener('click', onFirstTap);
+    });
+  };
   if (document.documentElement.classList.contains('is-page-loading')) {
     document.addEventListener('fibber:page-ready', startDeliveryVideo, { once: true });
   } else {

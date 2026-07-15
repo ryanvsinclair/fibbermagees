@@ -162,6 +162,8 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
 }
 .hero-video.is-fading-in.is-visible{opacity:1}
 .hero-video.is-instant-off{opacity:0;z-index:0;transition:none}
+.hero.video-blocked .hero-video{opacity:0!important}
+video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none!important}
 .hero-overlay{
   position:absolute;inset:0;z-index:1;
   background:linear-gradient(180deg,rgba(8,31,22,.4) 0%,rgba(8,31,22,.4) 45%,rgba(8,31,22,.4) 100%);
@@ -820,7 +822,29 @@ footer .fine a{color:var(--gold-light)}
 
   intro.addEventListener('playing', () => { loopA.load(); loopB.load(); }, { once: true });
 
-  const startIntro = () => safePlay(intro);
+  // If autoplay is blocked (iOS Low Power Mode, data savers), hide the
+  // videos so the poster shows instead of a paused video with a play
+  // button. Retry on the first tap; a user gesture is allowed to play,
+  // and prime the loop videos too since gesture permission is per-element.
+  const heroSection = document.getElementById('hero');
+  const onFirstTap = () => {
+    const attempt = intro.play();
+    [loopA, loopB].forEach(v => {
+      const p = v.play();
+      if (p) p.then(() => v.pause()).catch(() => {});
+    });
+    if (attempt) attempt.then(() => {
+      heroSection.classList.remove('video-blocked');
+      window.removeEventListener('click', onFirstTap);
+    }).catch(() => {});
+  };
+  const startIntro = () => {
+    const attempt = intro.play();
+    if (attempt) attempt.catch(() => {
+      heroSection.classList.add('video-blocked');
+      window.addEventListener('click', onFirstTap);
+    });
+  };
   if (document.documentElement.classList.contains('is-page-loading')) {
     document.addEventListener('fibber:page-ready', startIntro, { once: true });
   } else {

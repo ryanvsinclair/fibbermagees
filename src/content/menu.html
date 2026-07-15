@@ -171,6 +171,7 @@ body.nav-drawer-active .nav-drawer-hit:hover::after{width:56px;background:var(--
 }
 .deal-hero.has-video .deal-hero-bg{opacity:0}
 .deal-hero.has-video-pending .deal-hero-video{opacity:0}
+video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none!important}
 .deal-hero-overlay{
   position:absolute;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(180deg,rgba(8,31,22,.4) 0%,rgba(8,31,22,.4) 50%,rgba(8,31,22,.4) 100%);
@@ -1035,12 +1036,37 @@ if (!usesVideo) {
   heroBg.style.backgroundImage = `url('${d.image}')`;
   hero.classList.add('has-video-pending');
 
+  // While autoplay is blocked (Low Power Mode etc.) keep showing the
+  // deal image instead of a paused video with a play button.
+  let autoplayBlocked = false;
+
   const onVideoReady = () => {
+    if (autoplayBlocked) return;
     showHeroVideo();
     heroVideo.classList.add('is-active');
   };
 
-  const startMenuVideo = () => safePlay(heroVideo);
+  const onFirstTap = () => {
+    const attempt = heroVideo.play();
+    if (heroVideoLoop) {
+      const prime = heroVideoLoop.play();
+      if (prime) prime.then(() => heroVideoLoop.pause()).catch(() => {});
+    }
+    if (attempt) attempt.then(() => {
+      autoplayBlocked = false;
+      window.removeEventListener('click', onFirstTap);
+      if (heroVideo.readyState >= 2) onVideoReady();
+    }).catch(() => {});
+  };
+
+  const startMenuVideo = () => {
+    const attempt = heroVideo.play();
+    if (attempt) attempt.catch(() => {
+      autoplayBlocked = true;
+      showHeroImage();
+      window.addEventListener('click', onFirstTap);
+    });
+  };
 
   const onVideoError = () => {
     heroVideo.removeAttribute('src');
