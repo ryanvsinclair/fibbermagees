@@ -438,11 +438,12 @@ footer .fine a{color:var(--gold-light)}
 .modal-close:hover{background:var(--green-900);color:var(--cream);border-color:var(--green-900)}
 .modal h2{font-size:1.8rem;font-weight:600;margin-bottom:4px}
 .modal .sub{color:var(--ink-soft);font-weight:300;font-size:.95rem;margin-bottom:24px}
-.modal form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.field{display:flex;flex-direction:column;gap:6px}
+.modal form{display:grid;grid-template-columns:1fr 1fr;gap:16px;min-width:0}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field.full{grid-column:1/-1}
 .field label{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--green-900)}
 .field input,.field select,.field textarea{
+  width:100%;max-width:100%;
   font-family:'Outfit',sans-serif;font-size:.95rem;color:var(--ink);
   background:#fff;border:1.5px solid rgba(28,26,21,.15);border-radius:12px;padding:12px 14px;outline:none;
   transition:border-color .3s;
@@ -451,7 +452,23 @@ footer .fine a{color:var(--gold-light)}
 .modal .btn{grid-column:1/-1;justify-content:center;margin-top:6px}
 .modal .alt{grid-column:1/-1;text-align:center;font-size:.85rem;color:var(--ink-soft);font-weight:300}
 .modal .alt a{color:var(--green-900);font-weight:600}
-@media (max-width:520px){.modal form{grid-template-columns:1fr}}
+.modal .book-terms{grid-column:1/-1;min-width:0}
+@media (max-width:520px){
+  .modal-overlay{
+    align-items:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    padding:max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+  }
+  .modal{
+    width:100%;max-height:none;margin:0 auto;
+    padding:22px 16px 20px;border-radius:var(--radius);
+  }
+  .modal h2{font-size:1.45rem;padding-right:36px}
+  .modal .sub{font-size:.88rem;margin-bottom:18px}
+  .modal form{grid-template-columns:1fr;gap:12px}
+  .field input,.field select,.field textarea{font-size:16px;padding:11px 12px}
+  .book-terms{font-size:.74rem}
+  .modal .btn{margin-top:2px}
+}
 
 /* reveal on scroll */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
